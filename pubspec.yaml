@@ -13,10 +13,12 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  geolocator: ^14.0.2
   http: ^1.6.0
   hydrated_bloc: ^10.1.1
   json_annotation: ^4.9.0
   json_serializable: ^6.11.1
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_test:

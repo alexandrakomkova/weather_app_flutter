@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/data/repository/weather_repository_impl.dart';
 import 'package:weather_app/presentation/cubit/weather_cubit.dart';
 
+import '../presentation/pages/weather_page.dart';
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -24,7 +26,11 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: WeatherPage()
+    );
   }
 }
 

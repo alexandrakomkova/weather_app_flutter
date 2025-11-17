@@ -11,7 +11,7 @@ extension WeatherStatusX on WeatherStatus {
 
 @JsonSerializable()
 final class WeatherState {
-  final WeatherCubitModel? weatherCubitModel;
+  final WeatherCubitModel weatherCubitModel;
   final WeatherStatus status;
   final TemperatureUnits temperatureUnits;
 
