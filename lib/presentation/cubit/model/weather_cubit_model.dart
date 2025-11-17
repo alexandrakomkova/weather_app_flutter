@@ -47,6 +47,8 @@ class WeatherCubitModel extends Equatable{
   factory WeatherCubitModel.fromJson(Map<String, dynamic> json) =>
       _$WeatherCubitModelFromJson(json);
 
+  Map<String, dynamic> toJson() => _$WeatherCubitModelToJson(this);
+
   factory WeatherCubitModel.fromRepository(WeatherRepositoryModel weather) {
     return WeatherCubitModel(
       condition: weather.weatherCondition,

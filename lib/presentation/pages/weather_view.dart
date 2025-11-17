@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
+import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
 
 class WeatherView extends StatelessWidget {
   final WeatherCubitModel weatherCubitModel;
@@ -43,3 +47,4 @@ extension on WeatherCubitModel {
     return '''${temperature.value.toStringAsPrecision(2)}°${units.isCelsius ? 'C' : 'F'}''';
   }
 }
+

@@ -33,6 +33,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       ));
 
     } catch (e) {
+      print('weather_cubit.dart ${e.toString()}');
       emit(state.copyWith(status: WeatherStatus.failure));
     }
 
@@ -43,7 +44,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     if (state.weatherCubitModel == WeatherCubitModel.empty) return;
     try {
       final weather = WeatherCubitModel.fromRepository(
-        await _weatherRepositoryImpl.getWeather(state.weatherCubitModel?.latitude ?? 0.0, state.weatherCubitModel?.longitude ?? 0.0),
+        await _weatherRepositoryImpl.getWeather(state.weatherCubitModel.latitude, state.weatherCubitModel.longitude),
       );
       final units = state.temperatureUnits;
       final value = units.isFahrenheit
@@ -74,7 +75,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
     final weather = state.weatherCubitModel;
     if (weather != WeatherCubitModel.empty) {
-      final temperature = weather!.temperature;
+      final temperature = weather.temperature;
       final value = units.isCelsius
           ? temperature.value.toCelsius()
           : temperature.value.toFahrenheit();
