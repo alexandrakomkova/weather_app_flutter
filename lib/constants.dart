@@ -1,0 +1,1 @@
+const baseUrlOpenMeteo = 'api.open-meteo.com';
