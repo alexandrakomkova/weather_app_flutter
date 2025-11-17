@@ -9,12 +9,18 @@ class WeatherRepositoryModel extends Equatable {
   final double latitude;
   final double longitude;
   final double temperature;
+  final double windSpeed;
+  final int windDirection;
+  final int isDay;
   final WeatherCondition weatherCondition;
 
   const WeatherRepositoryModel({
     required this.latitude,
     required this.longitude,
     required this.temperature,
+    required this.windSpeed,
+    required this.windDirection,
+    required this.isDay,
     required this.weatherCondition,
   });
 
@@ -24,6 +30,14 @@ class WeatherRepositoryModel extends Equatable {
   Map<String, dynamic> toJson() => _$WeatherRepositoryModelToJson(this);
 
   @override
-  List<Object?> get props => [longitude, latitude, temperature, weatherCondition];
+  List<Object?> get props => [
+    longitude,
+    latitude,
+    temperature,
+    windSpeed,
+    windDirection,
+    weatherCondition,
+    isDay,
+  ];
 
 }
