@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:weather_app/data/repository/weather_repository_impl.dart';
@@ -33,7 +34,6 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       ));
 
     } catch (e) {
-      print('weather_cubit.dart ${e.toString()}');
       emit(state.copyWith(status: WeatherStatus.failure));
     }
 

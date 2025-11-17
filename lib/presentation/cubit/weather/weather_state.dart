@@ -10,7 +10,7 @@ extension WeatherStatusX on WeatherStatus {
 }
 
 @JsonSerializable()
-final class WeatherState {
+final class WeatherState extends Equatable{
   final WeatherCubitModel weatherCubitModel;
   final WeatherStatus status;
   final TemperatureUnits temperatureUnits;

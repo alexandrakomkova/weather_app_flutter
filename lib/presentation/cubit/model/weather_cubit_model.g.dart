@@ -18,6 +18,9 @@ WeatherCubitModel _$WeatherCubitModelFromJson(Map<String, dynamic> json) =>
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),
+      windSpeed: (json['windSpeed'] as num).toDouble(),
+      windDirection: (json['windDirection'] as num).toInt(),
+      isDay: (json['isDay'] as num).toInt(),
       temperature: Temperature.fromJson(
         json['temperature'] as Map<String, dynamic>,
       ),
@@ -29,6 +32,9 @@ Map<String, dynamic> _$WeatherCubitModelToJson(WeatherCubitModel instance) =>
       'lastUpdated': instance.lastUpdated.toIso8601String(),
       'latitude': instance.latitude,
       'longitude': instance.longitude,
+      'isDay': instance.isDay,
+      'windDirection': instance.windDirection,
+      'windSpeed': instance.windSpeed,
       'temperature': instance.temperature,
     };
 

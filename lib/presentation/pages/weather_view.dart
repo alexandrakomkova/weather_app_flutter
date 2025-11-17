@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
-import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
 
 class WeatherView extends StatelessWidget {
   final WeatherCubitModel weatherCubitModel;
@@ -30,6 +26,10 @@ class WeatherView extends StatelessWidget {
                   clipBehavior: Clip.none,
                   child: Column(
                     children: [
+                      Text('${weatherCubitModel.latitude} ${weatherCubitModel.longitude}'),
+                      Text('Wind Speed: ${weatherCubitModel.windSpeed}'),
+                      Text('Wind direction: ${weatherCubitModel.windDirection}'),
+                      Text('day: ${weatherCubitModel.isDay}'),
                       Text(weatherCubitModel.formattedTemperature(units) ),
                       Text('''Last Updated at ${TimeOfDay.fromDateTime(weatherCubitModel.lastUpdated).format(context)}'''),
                     ],
