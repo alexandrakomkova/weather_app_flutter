@@ -5,14 +5,30 @@ class WeatherLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: CircularProgressIndicator(),
-        ),
-        Text('Loading weather..'),
-      ],
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(30, 1.5 * kToolbarHeight, 30, 20),
+        child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.0,
+                  ),
+                ),
+                SizedBox(height: 8.0,),
+                Text(
+                    'Loading weather..',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300
+                    ),
+                ),
+              ],
+            )
+        )
     );
   }
 }
