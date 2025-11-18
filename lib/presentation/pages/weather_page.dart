@@ -30,14 +30,6 @@ class WeatherPage extends StatelessWidget {
           }
         },
       child: Scaffold(
-        // floatingActionButton: FloatingActionButton(
-        //   child: const Icon(Icons.search, semanticLabel: 'Search'),
-        //   onPressed: () async {
-        //     // final city = await Navigator.of(context).push(SearchPage.route());
-        //     if (!context.mounted) return;
-        //     await context.read<WeatherCubit>().fetchWeather(0.0, 0.0);
-        //   },
-        // ),
         appBar: AppBar(
           elevation: 0,
           systemOverlayStyle: const SystemUiOverlayStyle(
@@ -46,7 +38,7 @@ class WeatherPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
         ),
         extendBodyBehindAppBar: true,
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body:
             Center(
               child: BlocBuilder<WeatherCubit, WeatherState>(

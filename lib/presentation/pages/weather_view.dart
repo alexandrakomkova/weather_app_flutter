@@ -21,6 +21,8 @@ class WeatherView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 1.5 * kToolbarHeight, 30, 20),
       child: SizedBox(
@@ -47,18 +49,18 @@ class WeatherView extends StatelessWidget {
                           builder: (context, state) {
                             return Text(
                               '📍${state.address}',
-                              style: const TextStyle(
-                                  color: Colors.white,
+                              style: TextStyle(
+                                  color: theme.colorScheme.primary,
                                   fontWeight: FontWeight.w300
                               ),
                             );
                           },
                         ),
                         const SizedBox(height: 8.0),
-                        const Text(
+                        Text(
                           'Monday',
                           style: TextStyle(
-                              color: Colors.white,
+                              color: theme.colorScheme.primary,
                               fontSize: 25,
                               fontWeight: FontWeight.bold
                           ),
@@ -70,8 +72,8 @@ class WeatherView extends StatelessWidget {
                         Center(
                           child: Text(
                             weatherCubitModel.formattedTemperature(units),
-                            style: const TextStyle(
-                                color: Colors.white,
+                            style: TextStyle(
+                                color: theme.colorScheme.primary,
                                 fontSize: 55,
                                 fontWeight: FontWeight.w600
                             ),
@@ -80,8 +82,8 @@ class WeatherView extends StatelessWidget {
                         Center(
                           child: Text(
                               '''Last Updated at ${TimeOfDay.fromDateTime(weatherCubitModel.lastUpdated).format(context)}''',
-                            style: const TextStyle(
-                                color: Colors.white,
+                            style: TextStyle(
+                                color: theme.colorScheme.primary,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w300
                             ),
@@ -137,12 +139,13 @@ class _WeatherParamsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Row(
       children: [
         Image.asset(
             cardIcon,
           scale: 13.0,
-          color: Colors.white,
+          color: theme.colorScheme.primary,
         ),
         SizedBox(width: 12.0,),
         Column(
@@ -151,7 +154,7 @@ class _WeatherParamsCard extends StatelessWidget {
             Text(
               cardTitle,
               style: TextStyle(
-                  color: Colors.white,
+                  color: theme.colorScheme.primary,
                   fontWeight: FontWeight.w300,
                   fontSize: 14
               ),
@@ -159,8 +162,8 @@ class _WeatherParamsCard extends StatelessWidget {
             SizedBox(height: 3.0,),
             Text(
               value,
-              style: const TextStyle(
-                  color: Colors.white,
+              style: TextStyle(
+                  color: theme.colorScheme.primary,
                   fontWeight: FontWeight.w700,
                 fontSize: 14
               ),

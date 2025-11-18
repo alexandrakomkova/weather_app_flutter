@@ -8,6 +8,7 @@ import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
 
 import '../presentation/pages/weather_page.dart';
+import '../presentation/theme/weather_theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -56,6 +57,9 @@ class AppView extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: WeatherPage(),
+      themeMode: ThemeMode.light,
+      theme: WeatherTheme.light,
+      darkTheme: WeatherTheme.dark,
     );
   }
 }
