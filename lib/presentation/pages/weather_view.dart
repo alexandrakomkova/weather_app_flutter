@@ -27,7 +27,9 @@ class WeatherView extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
-            _WeatherBackground(),
+            _WeatherBackground(
+              weatherCondition: weatherCubitModel.condition,
+            ),
             RefreshIndicator(
               onRefresh: onRefresh,
               child: Align(
@@ -131,7 +133,6 @@ class _WeatherParamsCard extends StatelessWidget {
     required this.cardIcon,
     required this.cardTitle,
     required this.value,
-    super.key,
   });
 
   @override
@@ -173,7 +174,11 @@ class _WeatherParamsCard extends StatelessWidget {
 
 
 class _WeatherBackground extends StatelessWidget {
-  const _WeatherBackground({super.key});
+  final WeatherCondition weatherCondition;
+
+  const _WeatherBackground({
+    required this.weatherCondition,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -185,9 +190,9 @@ class _WeatherBackground extends StatelessWidget {
             child: Container(
               height: 350,
               width: 250,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.deepPurple
+                  color: weatherCondition.thirdColor
               ),
             ),
           ),
@@ -196,9 +201,9 @@ class _WeatherBackground extends StatelessWidget {
             child: Container(
               height: 300 ,
               width: 300,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Color(0xFF673AB7)
+                  color: weatherCondition.secondColor
               ),
             ),
           ),
@@ -207,8 +212,8 @@ class _WeatherBackground extends StatelessWidget {
             child: Container(
               height: 350,
               width: 600,
-              decoration: const BoxDecoration(
-                  color: Color(0xFFFFAB40)
+              decoration: BoxDecoration(
+                  color: weatherCondition.mainColor
               ),
             ),
           ),
