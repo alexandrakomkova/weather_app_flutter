@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/presentation/cubit/address_tracker/address_tracker_cubit.dart';
 import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
 import 'package:weather_app/presentation/pages/weather_view.dart';
@@ -21,6 +23,10 @@ class WeatherPage extends StatelessWidget {
                 state.position!.latitude,
                 state.position!.longitude
             );
+            context.read<AddressTrackerCubit>().getAddress(
+                state.position!.latitude,
+              state.position!.longitude,
+            );
           }
         },
       child: Scaffold(
@@ -32,9 +38,16 @@ class WeatherPage extends StatelessWidget {
         //     await context.read<WeatherCubit>().fetchWeather(0.0, 0.0);
         //   },
         // ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        appBar: AppBar(
+          elevation: 0,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarBrightness: Brightness.dark
+          ),
+          backgroundColor: Colors.transparent,
+        ),
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.black,
+        body:
             Center(
               child: BlocBuilder<WeatherCubit, WeatherState>(
                   builder: (context, state) {
@@ -52,8 +65,6 @@ class WeatherPage extends StatelessWidget {
                     };
                   }
               ),
-            ),
-          ],
         ),
       )
     );
