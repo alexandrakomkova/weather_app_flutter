@@ -35,7 +35,7 @@ class WeatherCubitModel extends Equatable{
   final double latitude;
   final double longitude;
   final int isDay;
-  final int windDirection;
+  final String windDirection;
   final double windSpeed;
   final Temperature temperature;
 
@@ -72,7 +72,7 @@ class WeatherCubitModel extends Equatable{
     condition: WeatherCondition.unknown,
     lastUpdated: DateTime(0),
     temperature: const Temperature(value: 0),
-    windDirection: 0,
+    windDirection: '',
     windSpeed: 0.0,
     isDay: 0,
     longitude: 0.0,
@@ -87,7 +87,7 @@ class WeatherCubitModel extends Equatable{
     Temperature? temperature,
     int? isDay,
     double? windSpeed,
-    int? windDirection,
+    String? windDirection,
   }) {
     return WeatherCubitModel(
         condition: condition ?? this.condition,

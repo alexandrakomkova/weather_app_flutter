@@ -13,7 +13,7 @@ WeatherRepositoryModel _$WeatherRepositoryModelFromJson(
   longitude: (json['longitude'] as num).toDouble(),
   temperature: (json['temperature'] as num).toDouble(),
   windSpeed: (json['windSpeed'] as num).toDouble(),
-  windDirection: (json['windDirection'] as num).toInt(),
+  windDirection: json['windDirection'] as String,
   isDay: (json['isDay'] as num).toInt(),
   weatherCondition: $enumDecode(
     _$WeatherConditionEnumMap,
@@ -35,8 +35,13 @@ Map<String, dynamic> _$WeatherRepositoryModelToJson(
 
 const _$WeatherConditionEnumMap = {
   WeatherCondition.clear: 'clear',
+  WeatherCondition.mainlyClear: 'mainlyClear',
   WeatherCondition.rainy: 'rainy',
+  WeatherCondition.rainShowers: 'rainShowers',
   WeatherCondition.cloudy: 'cloudy',
+  WeatherCondition.thunderstorm: 'thunderstorm',
+  WeatherCondition.drizzle: 'drizzle',
+  WeatherCondition.freezingDrizzle: 'freezingDrizzle',
   WeatherCondition.snowy: 'snowy',
   WeatherCondition.unknown: 'unknown',
 };
