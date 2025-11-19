@@ -10,37 +10,30 @@ class WeatherError extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(30, 1.5 * kToolbarHeight, 30, 20),
-        child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child:
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                    'Something went wrong! Please, try later.',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: theme.colorScheme.primary,
-                  ),
-                ),
-                SizedBox(height: 15.0,),
-                OutlinedButton(
-                    onPressed: () {
-                      context.read<WeatherCubit>().refreshWeather();
-                    },
-                    child: Text(
-                        'Try again',
-                      style: TextStyle(
-                        fontSize: 16
-                      ),
-                    ),
-                )
-              ],
-            )
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Something went wrong! Please, try later.',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: theme.colorScheme.primary,
+          ),
+        ),
+        SizedBox(height: 15.0,),
+        OutlinedButton(
+          onPressed: () {
+            context.read<WeatherCubit>().refreshWeather();
+          },
+          child: Text(
+            'Try again',
+            style: TextStyle(
+                fontSize: 16
+            ),
+          ),
         )
+      ],
     );
   }
 }
