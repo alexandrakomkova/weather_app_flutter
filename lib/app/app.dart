@@ -37,7 +37,7 @@ class App extends StatelessWidget {
         providers: [
           BlocProvider<LocationCubit>(
             create: (locationCubitContext) =>
-                LocationCubit(locationCubitContext.read<LocationRepositoryImpl>())..getPosition(),
+              LocationCubit(locationCubitContext.read<LocationRepositoryImpl>())
           ),
           BlocProvider<AddressTrackerCubit>(
               create: (addressTrackerContext) =>
