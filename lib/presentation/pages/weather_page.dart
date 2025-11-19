@@ -18,13 +18,13 @@ class WeatherPage extends StatelessWidget {
     return BlocListener<LocationCubit, LocationState>(
         listener: (locationCubitContext, state) {
           if(state.status == LocationStatus.success && state.position != null) {
+            locationCubitContext.read<AddressTrackerCubit>().getAddress(
+              state.position!.latitude,
+              state.position!.longitude,
+            );
             locationCubitContext.read<WeatherCubit>().fetchWeather(
                 state.position!.latitude,
                 state.position!.longitude
-            );
-            locationCubitContext.read<AddressTrackerCubit>().getAddress(
-                state.position!.latitude,
-                state.position!.longitude,
             );
           }
         },
@@ -52,7 +52,11 @@ class WeatherPage extends StatelessWidget {
                       weatherCubitModel: state.weatherCubitModel,
                       units: state.temperatureUnits,
                       onRefresh: () {
-                        return weatherCubitContext.read<WeatherCubit>().refreshWeather();
+                       return weatherCubitContext.read<WeatherCubit>().refreshWeather();
+                       //  return weatherCubitContext.read<WeatherCubit>().fetchWeather(
+                       //      state.weatherCubitModel.latitude,
+                       //      state.weatherCubitModel.longitude,
+                       //  );
                       }
                     ),
                   };

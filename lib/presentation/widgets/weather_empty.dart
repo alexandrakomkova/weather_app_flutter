@@ -5,10 +5,13 @@ class WeatherEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('weather empty'),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Checking permissions..'),
+        ],
+      ),
     );
   }
 }
