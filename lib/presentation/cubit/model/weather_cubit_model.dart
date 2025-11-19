@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:weather_app/domain/model/weather_repository_model.dart';
 
-import '../../../domain/model/weather_condition.dart';
+import '/domain/model/weather_condition.dart';
 
 part 'weather_cubit_model.g.dart';
 

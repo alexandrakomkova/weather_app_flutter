@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/presentation/cubit/address_tracker/address_tracker_cubit.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
 
-import '../../domain/model/weather_condition.dart';
+import '/domain/model/weather_condition.dart';
+
 
 class WeatherView extends StatelessWidget {
   final WeatherCubitModel weatherCubitModel;

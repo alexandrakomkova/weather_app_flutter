@@ -1,4 +1,4 @@
-import '../../domain/location/address_tracker.dart';
+import '/domain/location/address_tracker.dart';
 import 'package:geocoding/geocoding.dart';
 
  class DefaultAddressTracker implements AddressTracker {

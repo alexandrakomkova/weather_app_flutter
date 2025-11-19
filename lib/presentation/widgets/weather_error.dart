@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/weather/weather_cubit.dart';
+import '/presentation/cubit/weather/weather_cubit.dart';
 
 class WeatherError extends StatelessWidget {
   const WeatherError({super.key});

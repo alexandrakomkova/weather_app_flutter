@@ -2,9 +2,9 @@
 import 'package:weather_app/data/remote/open_meteo_api.dart';
 import 'package:weather_app/domain/repository/weather_repository.dart';
 
-import '../../domain/model/weather_repository_model.dart';
-import '../../domain/model/weather_condition.dart';
-import '../model/weather_response.dart';
+import '/domain/model/weather_repository_model.dart';
+import '/domain/model/weather_condition.dart';
+import '/data/model/weather_response.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository{
   final OpenMeteoApiClient _openMeteoApiClient;

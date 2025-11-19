@@ -7,8 +7,8 @@ import 'package:weather_app/presentation/cubit/address_tracker/address_tracker_c
 import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
 
-import '../presentation/pages/weather_page.dart';
-import '../presentation/theme/weather_theme.dart';
+import '/presentation/pages/weather_page.dart';
+import '/presentation/theme/weather_theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

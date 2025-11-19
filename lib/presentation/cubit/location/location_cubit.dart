@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../../../data/location/location_repository_impl.dart';
+import '/data/location/location_repository_impl.dart';
 
 part 'location_state.dart';
 

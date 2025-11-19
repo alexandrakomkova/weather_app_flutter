@@ -1,6 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 
-import '../../domain/location/location_repository.dart';
+import '/domain/location/location_repository.dart';
 
 class LocationRepositoryImpl implements LocationRepository {
   @override
