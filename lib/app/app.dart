@@ -4,7 +4,6 @@ import 'package:weather_app/data/location/default_address_tracker.dart';
 import 'package:weather_app/data/location/location_repository_impl.dart';
 import 'package:weather_app/data/remote/open_meteo_api.dart';
 import 'package:weather_app/data/repository/weather_repository_impl.dart';
-import 'package:weather_app/domain/remote/api_client.dart';
 import 'package:weather_app/presentation/cubit/address_tracker/address_tracker_cubit.dart';
 import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';

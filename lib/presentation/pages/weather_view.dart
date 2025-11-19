@@ -31,7 +31,7 @@ class WeatherView extends StatelessWidget {
         child: Stack(
           children: [
             _WeatherBackground(
-              weatherCondition: weatherCubitModel.condition,
+              weatherCondition: weatherCubitModel.weatherCondition,
             ),
             RefreshIndicator(
               onRefresh: onRefresh,
@@ -67,7 +67,7 @@ class WeatherView extends StatelessWidget {
                           ),
                         ),
                         Image.asset(
-                          weatherCubitModel.condition.toImagePath,
+                          weatherCubitModel.weatherCondition.toImagePath,
                         ),
 
                         Center(

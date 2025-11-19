@@ -14,7 +14,10 @@ Map<String, dynamic> _$TemperatureToJson(Temperature instance) =>
 
 WeatherCubitModel _$WeatherCubitModelFromJson(Map<String, dynamic> json) =>
     WeatherCubitModel(
-      condition: $enumDecode(_$WeatherConditionEnumMap, json['condition']),
+      weatherCondition: $enumDecode(
+        _$WeatherConditionEnumMap,
+        json['weatherCondition'],
+      ),
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),
@@ -27,7 +30,7 @@ WeatherCubitModel _$WeatherCubitModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$WeatherCubitModelToJson(WeatherCubitModel instance) =>
     <String, dynamic>{
-      'condition': _$WeatherConditionEnumMap[instance.condition]!,
+      'weatherCondition': _$WeatherConditionEnumMap[instance.weatherCondition]!,
       'lastUpdated': instance.lastUpdated.toIso8601String(),
       'latitude': instance.latitude,
       'longitude': instance.longitude,

@@ -42,8 +42,8 @@ class OpenMeteoApiClient implements ApiClient{
         longitude: longitude, 
         temperature: weather.temperature,
         windSpeed: weather.windSpeed,
-        windDirection: weather.windDirection.toNamedDirection,
-        weatherCondition: weather.weatherCode.toInt().toCondition,
+        windDirection: weather.windDirectionAngle.toDirection,
+        weatherCondition: weather.weatherConditionCode.toInt().toCondition,
     );
   }
 
@@ -54,7 +54,7 @@ class OpenMeteoApiClient implements ApiClient{
 }
 
 extension on int {
-  String get toNamedDirection {
+  String get toDirection {
     switch (this) {
       case 0:
       case 360:

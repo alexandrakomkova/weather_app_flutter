@@ -30,7 +30,7 @@ class Temperature extends Equatable {
 
 @JsonSerializable()
 class WeatherCubitModel extends Equatable{
-  final WeatherCondition condition;
+  final WeatherCondition weatherCondition;
   final DateTime lastUpdated;
   final double latitude;
   final double longitude;
@@ -39,7 +39,7 @@ class WeatherCubitModel extends Equatable{
   final Temperature temperature;
 
   const WeatherCubitModel({
-    required this.condition,
+    required this.weatherCondition,
     required this.lastUpdated,
     required this.latitude,
     required this.longitude,
@@ -55,7 +55,7 @@ class WeatherCubitModel extends Equatable{
 
   factory WeatherCubitModel.fromRepository(Weather weather) {
     return WeatherCubitModel(
-      condition: weather.weatherCondition,
+      weatherCondition: weather.weatherCondition,
       lastUpdated: DateTime.now(),
       latitude: weather.latitude,
       longitude: weather.longitude,
@@ -66,7 +66,7 @@ class WeatherCubitModel extends Equatable{
   }
 
   static final empty = WeatherCubitModel(
-    condition: WeatherCondition.unknown,
+    weatherCondition: WeatherCondition.unknown,
     lastUpdated: DateTime(0),
     temperature: const Temperature(value: 0),
     windDirection: '',
@@ -86,7 +86,7 @@ class WeatherCubitModel extends Equatable{
     String? windDirection,
   }) {
     return WeatherCubitModel(
-        condition: condition ?? this.condition,
+        weatherCondition: condition ?? this.weatherCondition,
         lastUpdated: lastUpdated ?? this.lastUpdated,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
@@ -98,7 +98,7 @@ class WeatherCubitModel extends Equatable{
 
   @override
   List<Object> get props => [
-    condition,
+    weatherCondition,
     lastUpdated,
     latitude,
     longitude,
