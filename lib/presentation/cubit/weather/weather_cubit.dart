@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
 
 import '/domain/repository/weather_repository.dart';
