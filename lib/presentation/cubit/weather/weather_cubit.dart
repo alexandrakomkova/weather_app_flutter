@@ -8,7 +8,7 @@ import '/domain/repository/weather_repository.dart';
 part 'weather_state.dart';
 part 'weather_cubit.g.dart';
 
-class WeatherCubit extends HydratedCubit<WeatherState> {
+class WeatherCubit extends Cubit<WeatherState> { //extends HydratedCubit<WeatherState> {
   final WeatherRepository _weatherRepository;
 
   WeatherCubit(this._weatherRepository) : super(WeatherState());
@@ -24,14 +24,14 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final units = state.temperatureUnits;
       final value = units.isFahrenheit
         ? weather.temperature.value.toFahrenheit()
-        : weather.temperature.value.toCelsius();
+        : weather.temperature.value;
 
       emit(state.copyWith(
         status: WeatherStatus.success,
         temperatureUnits: units,
         weatherCubitModel: weather.copyWith(
             temperature: Temperature(value: value),
-        )
+        ),
       ));
 
     } catch (e) {
@@ -42,10 +42,16 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
   Future<void> refreshWeather() async {
     if (!state.status.isSuccess) return;
+
     if (state.weatherCubitModel == WeatherCubitModel.empty) return;
+
+    emit(state.copyWith(status: WeatherStatus.loading));
     try {
       final weather = WeatherCubitModel.fromRepository(
-        await _weatherRepository.getWeather(state.weatherCubitModel.latitude, state.weatherCubitModel.longitude),
+        await _weatherRepository.getWeather(
+            state.weatherCubitModel.latitude,
+            state.weatherCubitModel.longitude,
+        ),
       );
       final units = state.temperatureUnits;
       final value = units.isFahrenheit
@@ -56,11 +62,13 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
         state.copyWith(
           status: WeatherStatus.success,
           temperatureUnits: units,
-          weatherCubitModel: weather.copyWith(temperature: Temperature(value: value)),
+          weatherCubitModel: weather.copyWith(
+              temperature: Temperature(value: value)
+          ),
         ),
       );
     } on Exception {
-      emit(state);
+      emit(state.copyWith(status: WeatherStatus.failure));
     }
   }
 
@@ -89,13 +97,13 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     }
   }
 
-  @override
-  WeatherState? fromJson(Map<String, dynamic> json) =>
-      WeatherState.fromJson(json);
-
-  @override
-  Map<String, dynamic>? toJson(WeatherState state) =>
-      state.toJson();
+  // @override
+  // WeatherState? fromJson(Map<String, dynamic> json) =>
+  //     WeatherState.fromJson(json);
+  //
+  // @override
+  // Map<String, dynamic>? toJson(WeatherState state) =>
+  //     state.toJson();
 }
 
 extension TemperatureConversion on double {
