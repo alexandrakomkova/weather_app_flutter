@@ -1,66 +1,31 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:weather_app/data/repository/weather_repository_impl.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
+
+import '/domain/repository/weather_repository.dart';
 
 part 'weather_state.dart';
 part 'weather_cubit.g.dart';
 
-class WeatherCubit extends HydratedCubit<WeatherState> {
-  final WeatherRepositoryImpl _weatherRepositoryImpl;
+class WeatherCubit extends Cubit<WeatherState> {
+  final WeatherRepository _weatherRepository;
 
-  WeatherCubit(this._weatherRepositoryImpl) : super(WeatherState());
+  WeatherCubit(this._weatherRepository) : super(WeatherState());
 
   Future<void> fetchWeather(double latitude, double longitude) async {
-    emit(state.copyWith(status: WeatherStatus.loading));
-
-    try {
-      final weather = WeatherCubitModel.fromRepository(
-        await _weatherRepositoryImpl.getWeather(latitude, longitude),
-      );
-
-      final units = state.temperatureUnits;
-      final value = units.isFahrenheit
-        ? weather.temperature.value.toFahrenheit()
-        : weather.temperature.value.toCelsius();
-
-      emit(state.copyWith(
-        status: WeatherStatus.success,
-        temperatureUnits: units,
-        weatherCubitModel: weather.copyWith(
-            temperature: Temperature(value: value),
-        )
-      ));
-
-    } catch (e) {
-      emit(state.copyWith(status: WeatherStatus.failure));
-    }
-
+    _getWeather(latitude, longitude);
   }
 
   Future<void> refreshWeather() async {
     if (!state.status.isSuccess) return;
-    if (state.weatherCubitModel == WeatherCubitModel.empty) return;
-    try {
-      final weather = WeatherCubitModel.fromRepository(
-        await _weatherRepositoryImpl.getWeather(state.weatherCubitModel.latitude, state.weatherCubitModel.longitude),
-      );
-      final units = state.temperatureUnits;
-      final value = units.isFahrenheit
-          ? weather.temperature.value.toFahrenheit()
-          : weather.temperature.value;
 
-      emit(
-        state.copyWith(
-          status: WeatherStatus.success,
-          temperatureUnits: units,
-          weatherCubitModel: weather.copyWith(temperature: Temperature(value: value)),
-        ),
-      );
-    } on Exception {
-      emit(state);
-    }
+    if (state.weatherCubitModel == WeatherCubitModel.empty) return;
+
+    _getWeather(
+      state.weatherCubitModel.latitude,
+      state.weatherCubitModel.longitude,
+    );
   }
 
   void toggleUnits() {
@@ -88,13 +53,36 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     }
   }
 
-  @override
-  WeatherState? fromJson(Map<String, dynamic> json) =>
-      WeatherState.fromJson(json);
+  Future<void> _getWeather(double latitude, double longitude) async {
 
-  @override
-  Map<String, dynamic>? toJson(WeatherState state) =>
-      state.toJson();
+    emit(state.copyWith(status: WeatherStatus.loading));
+
+    try {
+      final weather = WeatherCubitModel.fromRepository(
+        await _weatherRepository.getWeather(
+         latitude,
+          longitude,
+        ),
+      );
+
+      final units = state.temperatureUnits;
+      final value = units.isFahrenheit
+        ? weather.temperature.value.toFahrenheit()
+        : weather.temperature.value;
+
+      emit(
+        state.copyWith(
+          status: WeatherStatus.success,
+          temperatureUnits: units,
+          weatherCubitModel: weather.copyWith(
+            temperature: Temperature(value: value)
+          ),
+        ),
+      );
+    } on Exception {
+      emit(state.copyWith(status: WeatherStatus.failure));
+    }
+  }
 }
 
 extension TemperatureConversion on double {

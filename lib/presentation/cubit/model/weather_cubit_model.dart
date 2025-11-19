@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:weather_app/domain/model/weather_repository_model.dart';
+import 'package:weather_app/domain/model/weather.dart';
 
-import '../../../domain/model/weather_condition.dart';
+import '/domain/model/weather_condition.dart';
 
 part 'weather_cubit_model.g.dart';
 
-enum TemperatureUnits { fahrenheit, celsius }
+enum TemperatureUnits {
+  fahrenheit, celsius;
 
-extension TemperatureUnitsX on TemperatureUnits {
   bool get isFahrenheit => this == TemperatureUnits.fahrenheit;
   bool get isCelsius => this == TemperatureUnits.celsius;
 }
@@ -30,23 +30,21 @@ class Temperature extends Equatable {
 
 @JsonSerializable()
 class WeatherCubitModel extends Equatable{
-  final WeatherCondition condition;
+  final WeatherCondition weatherCondition;
   final DateTime lastUpdated;
   final double latitude;
   final double longitude;
-  final int isDay;
   final String windDirection;
   final double windSpeed;
   final Temperature temperature;
 
   const WeatherCubitModel({
-    required this.condition,
+    required this.weatherCondition,
     required this.lastUpdated,
     required this.latitude,
     required this.longitude,
     required this.windSpeed,
     required this.windDirection,
-    required this.isDay,
     required this.temperature,
   });
 
@@ -55,32 +53,30 @@ class WeatherCubitModel extends Equatable{
 
   Map<String, dynamic> toJson() => _$WeatherCubitModelToJson(this);
 
-  factory WeatherCubitModel.fromRepository(WeatherRepositoryModel weather) {
+  factory WeatherCubitModel.fromRepository(Weather weather) {
     return WeatherCubitModel(
-      condition: weather.weatherCondition,
+      weatherCondition: weather.weatherCondition,
       lastUpdated: DateTime.now(),
       latitude: weather.latitude,
       longitude: weather.longitude,
       temperature: Temperature(value: weather.temperature),
       windDirection: weather.windDirection,
       windSpeed:  weather.windSpeed,
-      isDay: weather.isDay,
     );
   }
 
   static final empty = WeatherCubitModel(
-    condition: WeatherCondition.unknown,
+    weatherCondition: WeatherCondition.unknown,
     lastUpdated: DateTime(0),
     temperature: const Temperature(value: 0),
     windDirection: '',
     windSpeed: 0.0,
-    isDay: 0,
     longitude: 0.0,
     latitude: 0.0,
   );
 
   WeatherCubitModel copyWith({
-    WeatherCondition? condition,
+    WeatherCondition? weatherCondition,
     DateTime? lastUpdated,
     double? latitude,
     double? longitude,
@@ -90,12 +86,11 @@ class WeatherCubitModel extends Equatable{
     String? windDirection,
   }) {
     return WeatherCubitModel(
-        condition: condition ?? this.condition,
+        weatherCondition: weatherCondition ?? this.weatherCondition,
         lastUpdated: lastUpdated ?? this.lastUpdated,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
         temperature: temperature ?? this.temperature,
-        isDay: isDay ?? this.isDay,
         windSpeed: windSpeed ?? this.windSpeed,
         windDirection: windDirection ?? this.windDirection,
     );
@@ -103,13 +98,12 @@ class WeatherCubitModel extends Equatable{
 
   @override
   List<Object> get props => [
-    condition,
+    weatherCondition,
     lastUpdated,
     latitude,
     longitude,
     temperature,
     windSpeed,
     windDirection,
-    isDay,
   ];
 }

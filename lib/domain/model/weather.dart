@@ -2,42 +2,39 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:weather_app/domain/model/weather_condition.dart';
 
-part 'weather_repository_model.g.dart';
+part 'weather.g.dart';
 
 @JsonSerializable()
-class WeatherRepositoryModel extends Equatable {
+class Weather extends Equatable {
   final double latitude;
   final double longitude;
   final double temperature;
   final double windSpeed;
   final String windDirection;
-  final int isDay;
   final WeatherCondition weatherCondition;
 
-  const WeatherRepositoryModel({
+  const Weather({
     required this.latitude,
     required this.longitude,
     required this.temperature,
     required this.windSpeed,
     required this.windDirection,
-    required this.isDay,
     required this.weatherCondition,
   });
 
-  factory WeatherRepositoryModel.fromJson(Map<String, dynamic> json) =>
-      _$WeatherRepositoryModelFromJson(json);
+  factory Weather.fromJson(Map<String, dynamic> json) =>
+      _$WeatherFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WeatherRepositoryModelToJson(this);
+  Map<String, dynamic> toJson() => _$WeatherToJson(this);
 
   @override
-  List<Object?> get props => [
+  List<Object> get props => [
     longitude,
     latitude,
     temperature,
     windSpeed,
     windDirection,
     weatherCondition,
-    isDay,
   ];
 
 }

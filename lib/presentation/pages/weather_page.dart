@@ -6,26 +6,25 @@ import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
 import 'package:weather_app/presentation/pages/weather_view.dart';
 
-import '../widgets/weather_empty.dart';
-import '../widgets/weather_error.dart';
-import '../widgets/weather_loading.dart';
+import '/presentation/widgets/weather_empty.dart';
+import '/presentation/widgets/weather_error.dart';
+import '/presentation/widgets/weather_loading.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return BlocListener<LocationCubit, LocationState>(
-        listener: (context, state) {
+        listener: (locationCubitContext, state) {
           if(state.status == LocationStatus.success && state.position != null) {
-            context.read<WeatherCubit>().fetchWeather(
+            locationCubitContext.read<AddressTrackerCubit>().getAddress(
+              state.position!.latitude,
+              state.position!.longitude,
+            );
+            locationCubitContext.read<WeatherCubit>().fetchWeather(
                 state.position!.latitude,
                 state.position!.longitude
-            );
-            context.read<AddressTrackerCubit>().getAddress(
-                state.position!.latitude,
-              state.position!.longitude,
             );
           }
         },
@@ -39,25 +38,32 @@ class WeatherPage extends StatelessWidget {
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).colorScheme.surface,
-        body:
-            Center(
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(30, 1.5 * kToolbarHeight, 30, 20),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
               child: BlocBuilder<WeatherCubit, WeatherState>(
-                  builder: (context, state) {
-                    return switch (state.status) {
-                      WeatherStatus.initial => const WeatherEmpty(),
-                      WeatherStatus.loading => const WeatherLoading(),
-                      WeatherStatus.failure => const WeatherError(),
-                      WeatherStatus.success => WeatherView(
-                          weatherCubitModel: state.weatherCubitModel,
-                          units: state.temperatureUnits,
-                          onRefresh: () {
-                            return context.read<WeatherCubit>().refreshWeather();
-                          }
-                      ),
-                    };
-                  }
+                builder: (weatherCubitContext, state) {
+                  return switch (state.status) {
+                    WeatherStatus.initial => const WeatherEmpty(),
+                    WeatherStatus.loading => const WeatherLoading(),
+                    WeatherStatus.failure => const WeatherError(),
+                    WeatherStatus.success => WeatherView(
+                      weatherCubitModel: state.weatherCubitModel,
+                      units: state.temperatureUnits,
+                      onRefresh: () {
+                       return weatherCubitContext.read<WeatherCubit>().refreshWeather();
+                       //  return weatherCubitContext.read<WeatherCubit>().fetchWeather(
+                       //      state.weatherCubitModel.latitude,
+                       //      state.weatherCubitModel.longitude,
+                       //  );
+                      }
+                    ),
+                  };
+                }
               ),
-        ),
+            ),
+        )
       )
     );
   }
