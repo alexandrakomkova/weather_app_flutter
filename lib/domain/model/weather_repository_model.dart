@@ -10,7 +10,7 @@ class WeatherRepositoryModel extends Equatable {
   final double longitude;
   final double temperature;
   final double windSpeed;
-  final int windDirection;
+  final String windDirection;
   final int isDay;
   final WeatherCondition weatherCondition;
 
