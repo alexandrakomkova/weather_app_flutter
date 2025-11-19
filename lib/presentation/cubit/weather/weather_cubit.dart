@@ -1,23 +1,24 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:weather_app/data/repository/weather_repository_impl.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
+
+import '/domain/repository/weather_repository.dart';
 
 part 'weather_state.dart';
 part 'weather_cubit.g.dart';
 
 class WeatherCubit extends HydratedCubit<WeatherState> {
-  final WeatherRepositoryImpl _weatherRepositoryImpl;
+  final WeatherRepository _weatherRepository;
 
-  WeatherCubit(this._weatherRepositoryImpl) : super(WeatherState());
+  WeatherCubit(this._weatherRepository) : super(WeatherState());
 
   Future<void> fetchWeather(double latitude, double longitude) async {
     emit(state.copyWith(status: WeatherStatus.loading));
 
     try {
       final weather = WeatherCubitModel.fromRepository(
-        await _weatherRepositoryImpl.getWeather(latitude, longitude),
+        await _weatherRepository.getWeather(latitude, longitude),
       );
 
       final units = state.temperatureUnits;
@@ -44,7 +45,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     if (state.weatherCubitModel == WeatherCubitModel.empty) return;
     try {
       final weather = WeatherCubitModel.fromRepository(
-        await _weatherRepositoryImpl.getWeather(state.weatherCubitModel.latitude, state.weatherCubitModel.longitude),
+        await _weatherRepository.getWeather(state.weatherCubitModel.latitude, state.weatherCubitModel.longitude),
       );
       final units = state.temperatureUnits;
       final value = units.isFahrenheit
