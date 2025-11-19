@@ -6,9 +6,9 @@ import '/domain/model/weather_condition.dart';
 
 part 'weather_cubit_model.g.dart';
 
-enum TemperatureUnits { fahrenheit, celsius }
+enum TemperatureUnits {
+  fahrenheit, celsius;
 
-extension TemperatureUnitsX on TemperatureUnits {
   bool get isFahrenheit => this == TemperatureUnits.fahrenheit;
   bool get isCelsius => this == TemperatureUnits.celsius;
 }
@@ -76,7 +76,7 @@ class WeatherCubitModel extends Equatable{
   );
 
   WeatherCubitModel copyWith({
-    WeatherCondition? condition,
+    WeatherCondition? weatherCondition,
     DateTime? lastUpdated,
     double? latitude,
     double? longitude,
@@ -86,7 +86,7 @@ class WeatherCubitModel extends Equatable{
     String? windDirection,
   }) {
     return WeatherCubitModel(
-        weatherCondition: condition ?? this.weatherCondition,
+        weatherCondition: weatherCondition ?? this.weatherCondition,
         lastUpdated: lastUpdated ?? this.lastUpdated,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
