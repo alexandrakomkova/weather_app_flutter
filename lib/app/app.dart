@@ -23,7 +23,7 @@ class App extends StatelessWidget {
           dispose: (apiClient) => apiClient.close(),
         ),
         RepositoryProvider(
-          create: (context) => WeatherRepositoryImpl(apiClient: context.read<OpenMeteoApiClient>()),
+          create: (weatherRepositoryContext) => WeatherRepositoryImpl(apiClient: weatherRepositoryContext.read<OpenMeteoApiClient>()),
           dispose: (repository) => repository.dispose(),
         ),
         RepositoryProvider(
@@ -36,16 +36,16 @@ class App extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<LocationCubit>(
-            create: (context) =>
-                LocationCubit(context.read<LocationRepositoryImpl>())..getPosition(),
+            create: (locationCubitContext) =>
+                LocationCubit(locationCubitContext.read<LocationRepositoryImpl>())..getPosition(),
           ),
           BlocProvider<AddressTrackerCubit>(
-              create: (context) => 
-                AddressTrackerCubit(context.read<DefaultAddressTracker>()),
+              create: (addressTrackerContext) =>
+                AddressTrackerCubit(addressTrackerContext.read<DefaultAddressTracker>()),
           ),
           BlocProvider<WeatherCubit>(
-            create: (context) =>
-                WeatherCubit(context.read<WeatherRepositoryImpl>()),
+            create: (weatherCubitContext) =>
+                WeatherCubit(weatherCubitContext.read<WeatherRepositoryImpl>()),
           ),
         ],
         child: const _AppView(),
@@ -61,10 +61,10 @@ class _AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WeatherPage(),
-      themeMode: ThemeMode.system,
       theme: WeatherTheme.light,
       darkTheme: WeatherTheme.dark,
+      themeMode: ThemeMode.system,
+      home: WeatherPage(),
     );
   }
 }
