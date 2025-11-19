@@ -11,7 +11,6 @@ WeatherResponse _$WeatherResponseFromJson(Map<String, dynamic> json) =>
       temperature: (json['temperature'] as num).toDouble(),
       windSpeed: (json['windspeed'] as num).toDouble(),
       windDirection: (json['winddirection'] as num).toInt(),
-      isDay: (json['is_day'] as num).toInt(),
       weatherCode: (json['weathercode'] as num).toDouble(),
     );
 
@@ -21,5 +20,4 @@ Map<String, dynamic> _$WeatherResponseToJson(WeatherResponse instance) =>
       'weathercode': instance.weatherCode,
       'windspeed': instance.windSpeed,
       'winddirection': instance.windDirection,
-      'is_day': instance.isDay,
     };

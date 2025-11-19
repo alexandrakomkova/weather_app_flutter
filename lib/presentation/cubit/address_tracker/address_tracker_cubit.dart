@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:weather_app/data/location/default_address_tracker.dart';
 import 'package:weather_app/domain/location/address_tracker.dart';
 
 part 'address_tracker_state.dart';

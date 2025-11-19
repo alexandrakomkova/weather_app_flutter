@@ -1,5 +1,5 @@
-import 'package:weather_app/domain/model/weather_repository_model.dart';
+import 'package:weather_app/domain/model/weather.dart';
 
 abstract class WeatherRepository {
-  Future<WeatherRepositoryModel> getWeather(double latitude, double longitude);
+  Future<Weather> getWeather(double latitude, double longitude);
 }

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:weather_app/domain/model/weather_repository_model.dart';
+import 'package:weather_app/domain/model/weather.dart';
 
 import '/domain/model/weather_condition.dart';
 
@@ -34,7 +34,6 @@ class WeatherCubitModel extends Equatable{
   final DateTime lastUpdated;
   final double latitude;
   final double longitude;
-  final int isDay;
   final String windDirection;
   final double windSpeed;
   final Temperature temperature;
@@ -46,7 +45,6 @@ class WeatherCubitModel extends Equatable{
     required this.longitude,
     required this.windSpeed,
     required this.windDirection,
-    required this.isDay,
     required this.temperature,
   });
 
@@ -55,7 +53,7 @@ class WeatherCubitModel extends Equatable{
 
   Map<String, dynamic> toJson() => _$WeatherCubitModelToJson(this);
 
-  factory WeatherCubitModel.fromRepository(WeatherRepositoryModel weather) {
+  factory WeatherCubitModel.fromRepository(Weather weather) {
     return WeatherCubitModel(
       condition: weather.weatherCondition,
       lastUpdated: DateTime.now(),
@@ -64,7 +62,6 @@ class WeatherCubitModel extends Equatable{
       temperature: Temperature(value: weather.temperature),
       windDirection: weather.windDirection,
       windSpeed:  weather.windSpeed,
-      isDay: weather.isDay,
     );
   }
 
@@ -74,7 +71,6 @@ class WeatherCubitModel extends Equatable{
     temperature: const Temperature(value: 0),
     windDirection: '',
     windSpeed: 0.0,
-    isDay: 0,
     longitude: 0.0,
     latitude: 0.0,
   );
@@ -95,7 +91,6 @@ class WeatherCubitModel extends Equatable{
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
         temperature: temperature ?? this.temperature,
-        isDay: isDay ?? this.isDay,
         windSpeed: windSpeed ?? this.windSpeed,
         windDirection: windDirection ?? this.windDirection,
     );
@@ -110,6 +105,5 @@ class WeatherCubitModel extends Equatable{
     temperature,
     windSpeed,
     windDirection,
-    isDay,
   ];
 }

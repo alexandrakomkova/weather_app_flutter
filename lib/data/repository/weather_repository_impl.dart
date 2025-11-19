@@ -2,7 +2,7 @@
 import 'package:weather_app/data/remote/open_meteo_api.dart';
 import 'package:weather_app/domain/repository/weather_repository.dart';
 
-import '/domain/model/weather_repository_model.dart';
+import '/domain/model/weather.dart';
 import '/domain/model/weather_condition.dart';
 import '/data/model/weather_response.dart';
 
@@ -14,20 +14,19 @@ class WeatherRepositoryImpl implements WeatherRepository{
 }): _openMeteoApiClient = openMeteoApiClient ?? OpenMeteoApiClient();
 
   @override
-  Future<WeatherRepositoryModel> getWeather(double latitude, double longitude) async {
+  Future<Weather> getWeather(double latitude, double longitude) async {
     final WeatherResponse weather = await _openMeteoApiClient.getWeather(
         latitude: latitude,
         longitude: longitude,
     );
 
-    return WeatherRepositoryModel(
+    return Weather(
         latitude: latitude,
         longitude: longitude,
         temperature: weather.temperature,
         weatherCondition: weather.weatherCode.toInt().toCondition,
         windSpeed: weather.windSpeed,
         windDirection: weather.windDirection.toInt().toNamedDirection,
-        isDay: weather.isDay,
     );
   }
 
