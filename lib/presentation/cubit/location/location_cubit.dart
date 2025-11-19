@@ -15,9 +15,8 @@ class LocationCubit extends Cubit<LocationState> {
     try {
       final positionData = await _locationRepository.getLocation();
 
-
       emit(state.copyWith(
-          status: LocationStatus.success,
+        status: LocationStatus.success,
         position: positionData,
       ));
     } catch (e) {

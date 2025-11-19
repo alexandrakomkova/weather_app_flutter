@@ -62,7 +62,7 @@ class AppView extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: WeatherPage(),
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
       theme: WeatherTheme.light,
       darkTheme: WeatherTheme.dark,
     );
