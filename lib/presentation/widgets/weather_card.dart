@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/presentation/cubit/address_tracker/address_tracker_cubit.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
 import 'package:weather_app/presentation/widgets/weather_params_card.dart';
@@ -89,7 +90,7 @@ class _WeatherCardState extends State<WeatherCard>
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      'Monday',
+                      DateFormat('EEEE').format(DateTime.now()),
                       style: TextStyle(
                           color: theme.colorScheme.primary,
                           fontSize: 25,
