@@ -3,7 +3,7 @@ part of 'location_cubit.dart';
 
 enum LocationStatus { initial, loading, success, failure }
 
-final class LocationState extends Equatable{
+final class LocationState {
   final Position? position;
   final LocationStatus status;
 
@@ -22,6 +22,5 @@ final class LocationState extends Equatable{
     );
   }
 
-  @override
   List<Object?> get props => [position, status,];
 }

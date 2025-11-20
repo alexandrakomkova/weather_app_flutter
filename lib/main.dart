@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -15,5 +16,7 @@ Future<void> main() async {
           ? HydratedStorageDirectory.web
           : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
-  runApp(const App());
+  runApp(
+      App(connectivity: Connectivity(),)
+  );
 }
