@@ -18,6 +18,8 @@ class WeatherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return BlocListener<LocationCubit, LocationState>(
         listener: (locationCubitContext, state) {
           if(state.status == LocationStatus.success && state.position != null) {
@@ -38,11 +40,46 @@ class WeatherPage extends StatelessWidget {
               statusBarBrightness: Brightness.dark
           ),
           backgroundColor: Colors.transparent,
+          actions: [
+            BlocBuilder<WeatherCubit, WeatherState>(
+              buildWhen: (previous, current) =>
+                previous.temperatureUnits != current.temperatureUnits,
+              builder: (weatherCubitContext, state) {
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        '°F',
+                        style: TextStyle(
+                          color: theme.colorScheme.primary,
+                          fontSize: 16
+                        ),
+                      ),
+                      SizedBox(width: 3.0,),
+                      Switch(
+                        value: state.temperatureUnits.isCelsius,
+                        onChanged: (_) => weatherCubitContext.read<WeatherCubit>().toggleUnits(),
+                      ),
+                      SizedBox(width: 3.0,),
+                      Text(
+                        '°C',
+                        style: TextStyle(
+                            color: theme.colorScheme.primary,
+                            fontSize: 16
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(30, 1.5 * kToolbarHeight, 30, 20),
+          padding: const EdgeInsets.fromLTRB(30, 2.2 * kToolbarHeight, 30, 20),
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: BlocBuilder<InternetCubit, InternetState>(

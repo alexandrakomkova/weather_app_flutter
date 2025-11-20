@@ -7,6 +7,6 @@ import 'package:geocoding/geocoding.dart';
     List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
     Placemark place = placemarks[0];
 
-    return '${place.country}, ${place.name}';
+    return '${place.name}, ${place.country}';
   }
 }

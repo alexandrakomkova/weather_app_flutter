@@ -30,7 +30,9 @@ class App extends StatelessWidget {
           dispose: (apiClient) => apiClient.close(),
         ),
         RepositoryProvider(
-          create: (weatherRepositoryContext) => WeatherRepositoryImpl(apiClient: weatherRepositoryContext.read<OpenMeteoApiClient>()),
+          create: (weatherRepositoryContext) => WeatherRepositoryImpl(
+              apiClient: weatherRepositoryContext.read<OpenMeteoApiClient>()
+          ),
           dispose: (repository) => repository.dispose(),
         ),
         RepositoryProvider(

@@ -9,7 +9,7 @@ import 'package:weather_app/presentation/widgets/weather_params_card.dart';
 import '/domain/model/weather_condition.dart';
 
 
-class WeatherCard extends StatelessWidget {
+class WeatherCard extends StatefulWidget {
   final WeatherCubitModel weatherCubitModel;
   final TemperatureUnits units;
   final ValueGetter<Future<void>> onRefresh;
@@ -22,16 +22,41 @@ class WeatherCard extends StatelessWidget {
   });
 
   @override
+  State<WeatherCard> createState() => _WeatherCardState();
+}
+
+class _WeatherCardState extends State<WeatherCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    )..repeat(count: 3, reverse: true);
+    _animation = Tween<double>(begin: 1.0, end: 1.02).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Stack(
       children: [
         _WeatherBackground(
-          weatherCondition: weatherCubitModel.weatherCondition,
+          weatherCondition: widget.weatherCubitModel.weatherCondition,
         ),
         RefreshIndicator(
-          onRefresh: onRefresh,
+          onRefresh: widget.onRefresh,
           child: Align(
             alignment: const Alignment(0, -1 / 3),
             child: SingleChildScrollView(
@@ -45,12 +70,20 @@ class WeatherCard extends StatelessWidget {
                   children: [
                     BlocBuilder<AddressTrackerCubit, AddressTrackerState>(
                       builder: (_, state) {
-                        return Text(
-                          '📍${state.address}',
-                          style: TextStyle(
-                              color: theme.colorScheme.primary,
-                              fontWeight: FontWeight.w300
-                          ),
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '📍${state.address}',
+                                style: TextStyle(
+                                    color: theme.colorScheme.primary,
+                                    fontWeight: FontWeight.w300,
+                                  fontSize: 16
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
@@ -63,13 +96,16 @@ class WeatherCard extends StatelessWidget {
                           fontWeight: FontWeight.bold
                       ),
                     ),
-                    Image.asset(
-                      weatherCubitModel.weatherCondition.icon,
+                    ScaleTransition(
+                      scale: _animation,
+                      child: Image.asset(
+                        widget.weatherCubitModel.weatherCondition.icon,
+                      ),
                     ),
 
                     Center(
                       child: Text(
-                        weatherCubitModel.formattedTemperature(units),
+                        widget.weatherCubitModel.formattedTemperature(widget.units),
                         style: TextStyle(
                             color: theme.colorScheme.primary,
                             fontSize: 55,
@@ -79,7 +115,7 @@ class WeatherCard extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        '''Last Updated at ${TimeOfDay.fromDateTime(weatherCubitModel.lastUpdated).format(context)}''',
+                        '''Last Updated at ${TimeOfDay.fromDateTime(widget.weatherCubitModel.lastUpdated).format(context)}''',
                         style: TextStyle(
                             color: theme.colorScheme.primary,
                             fontSize: 16,
@@ -96,12 +132,12 @@ class WeatherCard extends StatelessWidget {
                         WeatherParamsCard(
                           cardIcon: 'assets/wind_speed.png',
                           cardTitle: 'Wind Speed',
-                          value: '${weatherCubitModel.windSpeed} km/h',
+                          value: '${widget.weatherCubitModel.windSpeed} km/h',
                         ),
                         WeatherParamsCard(
                           cardIcon: 'assets/wind_direction.png',
                           cardTitle: 'Wind Direction',
-                          value: weatherCubitModel.windDirection,
+                          value: widget.weatherCubitModel.windDirection,
                         ),
                       ],
                     ),
