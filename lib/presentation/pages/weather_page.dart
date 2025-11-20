@@ -5,7 +5,7 @@ import 'package:weather_app/presentation/cubit/address_tracker/address_tracker_c
 import 'package:weather_app/presentation/cubit/internet_connection/internet_cubit.dart';
 import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
-import 'package:weather_app/presentation/pages/weather_view.dart';
+import 'package:weather_app/presentation/widgets/weather_card.dart';
 import 'package:weather_app/presentation/widgets/checking_internet_connection.dart';
 import 'package:weather_app/presentation/widgets/no_internet_connection.dart';
 
@@ -50,28 +50,37 @@ class WeatherPage extends StatelessWidget {
                   return switch(internetCubitState.status) {
                     InternetStatus.loading => CheckingInternetConnection(),
                     InternetStatus.disconnected => NoInternetConnection(),
-                    InternetStatus.connected => BlocBuilder<WeatherCubit, WeatherState>(
-                      builder: (weatherCubitContext, weatherCubitState) {
-                        return switch (weatherCubitState.status) {
-                          WeatherStatus.initial => const WeatherEmpty(),
-                          WeatherStatus.loading => const WeatherLoading(),
-                          WeatherStatus.failure => const WeatherError(),
-                          WeatherStatus.success => WeatherView(
-                            weatherCubitModel: weatherCubitState.weatherCubitModel,
-                            units: weatherCubitState.temperatureUnits,
-                            onRefresh: () {
-                              return weatherCubitContext.read<WeatherCubit>().refreshWeather();
-                            }
-                          ),
-                        };
-                      }
-                    ),
+                    InternetStatus.connected => _WeatherView()
                   };
                 },
               ),
             ),
         )
       )
+    );
+  }
+}
+
+class _WeatherView extends StatelessWidget {
+  const _WeatherView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<WeatherCubit, WeatherState>(
+        builder: (weatherCubitContext, weatherCubitState) {
+          return switch (weatherCubitState.status) {
+            WeatherStatus.initial => const WeatherEmpty(),
+            WeatherStatus.loading => const WeatherLoading(),
+            WeatherStatus.failure => const WeatherError(),
+            WeatherStatus.success => WeatherCard(
+                weatherCubitModel: weatherCubitState.weatherCubitModel,
+                units: weatherCubitState.temperatureUnits,
+                onRefresh: () {
+                  return weatherCubitContext.read<WeatherCubit>().refreshWeather();
+                }
+            ),
+          };
+        }
     );
   }
 }

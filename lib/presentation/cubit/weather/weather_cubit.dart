@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
 
@@ -8,7 +8,7 @@ import '/domain/repository/weather_repository.dart';
 part 'weather_state.dart';
 part 'weather_cubit.g.dart';
 
-class WeatherCubit extends Cubit<WeatherState> {
+class WeatherCubit extends HydratedCubit<WeatherState> {
   final WeatherRepository _weatherRepository;
 
   WeatherCubit(this._weatherRepository) : super(WeatherState());
@@ -83,6 +83,14 @@ class WeatherCubit extends Cubit<WeatherState> {
       emit(state.copyWith(status: WeatherStatus.failure));
     }
   }
+
+  @override
+  WeatherState? fromJson(Map<String, dynamic> json) =>
+      WeatherState.fromJson(json);
+
+  @override
+  Map<String, dynamic>? toJson(WeatherState state) =>
+      state.toJson();
 }
 
 extension TemperatureConversion on double {

@@ -9,12 +9,12 @@ import 'package:weather_app/presentation/widgets/weather_params_card.dart';
 import '/domain/model/weather_condition.dart';
 
 
-class WeatherView extends StatelessWidget {
+class WeatherCard extends StatelessWidget {
   final WeatherCubitModel weatherCubitModel;
   final TemperatureUnits units;
   final ValueGetter<Future<void>> onRefresh;
 
-  const WeatherView({
+  const WeatherCard({
     required this.weatherCubitModel,
     required this.units,
     required this.onRefresh,
