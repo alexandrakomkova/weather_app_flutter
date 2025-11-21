@@ -8,10 +8,9 @@ import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
 import 'package:weather_app/presentation/widgets/weather_card.dart';
 import 'package:weather_app/presentation/widgets/checking_internet_connection.dart';
 import 'package:weather_app/presentation/widgets/no_internet_connection.dart';
-
-import '/presentation/widgets/weather_empty.dart';
-import '/presentation/widgets/weather_error.dart';
-import '/presentation/widgets/weather_loading.dart';
+import 'package:weather_app/presentation/widgets/weather_empty.dart';
+import 'package:weather_app/presentation/widgets/weather_error.dart';
+import 'package:weather_app/presentation/widgets/weather_loading.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({super.key});

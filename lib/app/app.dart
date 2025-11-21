@@ -10,8 +10,8 @@ import 'package:weather_app/presentation/cubit/internet_connection/internet_cubi
 import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
 
-import '/presentation/pages/weather_page.dart';
-import '/presentation/theme/weather_theme.dart';
+import 'package:weather_app/presentation/pages/weather_page.dart';
+import 'package:weather_app/presentation/theme/weather_theme.dart';
 
 class App extends StatelessWidget {
   final Connectivity connectivity;

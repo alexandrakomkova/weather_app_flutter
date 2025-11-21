@@ -2,7 +2,7 @@
 import 'package:weather_app/domain/remote/api_client.dart';
 import 'package:weather_app/domain/repository/weather_repository.dart';
 
-import '/domain/model/weather.dart';
+import 'package:weather_app/domain/model/weather.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository{
   final ApiClient _apiClient;
