@@ -11,6 +11,7 @@ Features
 * Offline caching of most recent data
 * Changing temperature units: Celsius / Fahrenheit
 * Animated UI
+* App theme adapting to system theme
 
 Key technologies
 ----------------
