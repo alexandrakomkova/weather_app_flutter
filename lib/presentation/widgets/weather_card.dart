@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/presentation/cubit/address_tracker/address_tracker_cubit.dart';
+import 'package:weather_app/presentation/cubit/ai_advice/advice_cubit.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
+import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
+import 'package:weather_app/presentation/widgets/clothes_recommendation_card.dart';
 import 'package:weather_app/presentation/widgets/weather_params_card.dart';
 import 'package:weather_app/domain/model/weather_condition.dart';
 
@@ -98,8 +101,14 @@ class _WeatherCardState extends State<WeatherCard>
                     ),
                     ScaleTransition(
                       scale: _animation,
-                      child: Image.asset(
-                        widget.weatherCubitModel.weatherCondition.icon,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Image.asset(
+                            widget.weatherCubitModel.weatherCondition.icon,
+                            scale: 1.7,
+                          ),
+                        ],
                       ),
                     ),
 
@@ -108,7 +117,7 @@ class _WeatherCardState extends State<WeatherCard>
                         widget.weatherCubitModel.formattedTemperature(widget.units),
                         style: TextStyle(
                             color: theme.colorScheme.primary,
-                            fontSize: 55,
+                            fontSize: 50,
                             fontWeight: FontWeight.w600
                         ),
                       ),
@@ -124,8 +133,8 @@ class _WeatherCardState extends State<WeatherCard>
                       ),
                     ),
 
-                    const SizedBox(height: 30.0),
-
+                    const SizedBox(height: 20.0),
+                    // info about wind speed and direction
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -141,6 +150,22 @@ class _WeatherCardState extends State<WeatherCard>
                         ),
                       ],
                     ),
+
+                    const SizedBox(height: 30.0),
+                    // ai clothes recommendation
+                    BlocListener<WeatherCubit, WeatherState>(
+                      listener: (context, weatherState) {
+                        debugPrint('--- ClothesRecommendationCard listener ${weatherState.status}');
+                        if(weatherState.weatherCubitModel != WeatherCubitModel.empty) {
+                          debugPrint('--- ClothesRecommendationCard fetchRecommendation called');
+                          context.read<AdviceCubit>().fetchRecommendation(
+                            weather: weatherState.weatherCubitModel,
+                            temperatureUnits: weatherState.temperatureUnits,
+                          );
+                        }
+                      },
+                      child: ClothesRecommendationCard()
+                    )
                   ],
                 ),
               ),
