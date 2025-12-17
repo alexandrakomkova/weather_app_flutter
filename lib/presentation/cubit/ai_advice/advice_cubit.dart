@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:weather_app/domain/repository/advice_repository.dart';
@@ -20,7 +19,6 @@ class AdviceCubit extends HydratedCubit<AdviceState> {
     required WeatherCubitModel weather,
     required TemperatureUnits temperatureUnits,
   }) async {
-    debugPrint('AdviceCubit fetchRecommendation');
     return await _getAIRecommendation(
       weather: weather,
       temperatureUnits: temperatureUnits,
@@ -41,12 +39,21 @@ class AdviceCubit extends HydratedCubit<AdviceState> {
         temperatureUnits: temperatureUnits,
       );
 
-      emit(state.copyWith(
-        status: AdviceStatus.success,
-        advice: res,
-        errorMessage: ''
-      ));
-
+      res.fold(
+        (onError) {
+          emit(state.copyWith(
+            status: AdviceStatus.failure,
+            errorMessage: onError.error.toString()
+          ));
+        },
+        (onOk) {
+          emit(state.copyWith(
+              status: AdviceStatus.success,
+              advice: onOk.value,
+              errorMessage: ''
+          ));
+        }
+      );
     } catch(e) {
       emit(state.copyWith(
         status: AdviceStatus.failure,

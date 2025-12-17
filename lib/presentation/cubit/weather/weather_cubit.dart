@@ -46,6 +46,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final value = units.isCelsius
           ? temperature.value.toCelsius()
           : temperature.value.toFahrenheit();
+
       emit(
         state.copyWith(
           temperatureUnits: units,

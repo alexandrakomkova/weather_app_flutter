@@ -1,8 +1,9 @@
 import 'package:logging/logging.dart';
-import 'package:weather_app/data/remote/clarifai_api.dart';
 import 'package:weather_app/domain/remote/ai_api_client.dart';
 import 'package:weather_app/domain/repository/advice_repository.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
+import 'package:weather_app/utils/custom_exception.dart';
+import 'package:weather_app/utils/result.dart';
 
 final _log = Logger('AdviceRepositoryImpl');
 class AdviceRepositoryImpl implements AdviceRepository {
@@ -12,24 +13,26 @@ class AdviceRepositoryImpl implements AdviceRepository {
   }): _apiClient = apiClient;
 
   @override
-  Future<String> getClothesRecommendation({
+  Future<Result<String>> getClothesRecommendation({
     required WeatherCubitModel weather,
     required TemperatureUnits temperatureUnits,
   }) async {
     try {
-      return await _apiClient.getClothesRecommendation(
+      final res = await _apiClient.getClothesRecommendation(
         weather: weather,
         temperatureUnits: temperatureUnits,
       );
+
+      return Result.ok(res);
     } on ClarifaiApiRequestFailure catch(e) {
-      _log.warning(e.toString());
-      return 'Can not processed a request. Please, try later.';
+      _log.warning(e.message);
+      return Result.error(ClarifaiApiRequestFailure());
     } on ClarifaiApiOutputNotFound catch(e) {
-      _log.warning(e.toString());
-      return 'Can not parse a request body. Please, try later.';
+      _log.warning(e.message);
+      return Result.error(ClarifaiApiOutputNotFound());
     } on Exception catch(e) {
       _log.warning(e.toString());
-      return 'Some error occurred. Please, try later.';
+      return Result.error(Exception('Some error occurred. Please, try later.'));
     }
   }
 
