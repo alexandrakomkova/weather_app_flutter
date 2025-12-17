@@ -6,6 +6,7 @@ import 'package:weather_app/data/model/weather_response.dart';
 import 'package:weather_app/domain/model/weather.dart';
 import 'package:weather_app/domain/model/weather_condition.dart';
 import 'package:weather_app/domain/remote/weather_api_client.dart';
+import 'package:weather_app/utils/custom_exception.dart';
 
 class OpenMeteoApiClient implements WeatherApiClient{
   final http.Client _httpClient;
@@ -143,19 +144,4 @@ extension on int {
         return WeatherCondition.unknown;
     }
   }
-}
-
-class WeatherRequestFailure implements Exception {
-  final String message;
-
-  const WeatherRequestFailure({
-    this.message = '',
-  });
-}
-class WeatherNotFoundFailure implements Exception {
-  final String message;
-
-  const WeatherNotFoundFailure({
-    this.message = '',
-  });
 }

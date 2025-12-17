@@ -6,6 +6,7 @@ import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/data/model/advice_response.dart';
 import 'package:weather_app/domain/remote/ai_api_client.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
+import 'package:weather_app/utils/custom_exception.dart';
 
 class ClarifaiApiClient implements AIApiClient {
   final http.Client _httpClient;
@@ -75,6 +76,3 @@ class ClarifaiApiClient implements AIApiClient {
     });
   }
 }
-
-class ClarifaiApiRequestFailure implements Exception {}
-class ClarifaiApiOutputNotFound implements Exception {}
