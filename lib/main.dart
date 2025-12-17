@@ -5,6 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:weather_app/app/app.dart';
 import 'package:weather_app/app/app_bloc_observer.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +16,9 @@ Future<void> main() async {
           ? HydratedStorageDirectory.web
           : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
+  await dotenv.load(fileName: ".env");
+
   runApp(
-      App(connectivity: Connectivity(),)
+    App(connectivity: Connectivity(),)
   );
 }
