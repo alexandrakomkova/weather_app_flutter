@@ -12,7 +12,10 @@ class WeatherRepositoryImpl implements WeatherRepository{
   }): _apiClient = apiClient;
 
   @override
-  Future<Weather> getWeather(double latitude, double longitude) async {
+  Future<Weather> getWeather({
+    required double latitude,
+    required double longitude,
+  }) async {
     return await _apiClient.getWeather(latitude, longitude);
   }
 

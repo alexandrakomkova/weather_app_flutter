@@ -24,12 +24,12 @@ class WeatherPage extends StatelessWidget {
           debugPrint('--- LocationCubit ${state.status}');
           if(state.status == LocationStatus.success && state.position != null) {
             locationCubitContext.read<AddressTrackerCubit>().getAddress(
-              state.position!.latitude,
-              state.position!.longitude,
+              latitude: state.position!.latitude,
+              longitude: state.position!.longitude,
             );
             locationCubitContext.read<WeatherCubit>().fetchWeather(
-                state.position!.latitude,
-                state.position!.longitude
+              latitude: state.position!.latitude,
+              longitude: state.position!.longitude
             );
           }
         },

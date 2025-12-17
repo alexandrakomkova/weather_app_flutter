@@ -12,8 +12,11 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
   WeatherCubit(this._weatherRepository) : super(WeatherState());
 
-  Future<void> fetchWeather(double latitude, double longitude) async {
-    return await _getWeather(latitude, longitude);
+  Future<void> fetchWeather({
+    required double latitude,
+    required double longitude,
+  }) async {
+    return await _getWeather(latitude: latitude, longitude: longitude);
   }
 
   Future<void> refreshWeather() async {
@@ -22,8 +25,8 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     if (state.weatherCubitModel == WeatherCubitModel.empty) return;
 
     _getWeather(
-      state.weatherCubitModel.latitude,
-      state.weatherCubitModel.longitude,
+      latitude: state.weatherCubitModel.latitude,
+      longitude: state.weatherCubitModel.longitude,
     );
   }
 
@@ -52,15 +55,18 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     }
   }
 
-  Future<void> _getWeather(double latitude, double longitude) async {
+  Future<void> _getWeather({
+    required double latitude,
+    required double longitude,
+  }) async {
 
     emit(state.copyWith(status: WeatherStatus.loading));
 
     try {
       final weather = WeatherCubitModel.fromRepository(
         await _weatherRepository.getWeather(
-         latitude,
-          longitude,
+          latitude: latitude,
+          longitude: longitude,
         ),
       );
 

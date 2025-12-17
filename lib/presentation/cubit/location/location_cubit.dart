@@ -8,7 +8,7 @@ class LocationCubit extends Cubit<LocationState> {
   final LocationRepository _locationRepository;
 
   LocationCubit(this._locationRepository) : super(LocationState()) {
-   getPosition();
+    getPosition();
   }
 
   Future<void> getPosition() async {

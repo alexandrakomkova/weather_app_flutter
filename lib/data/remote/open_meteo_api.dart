@@ -16,11 +16,15 @@ class OpenMeteoApiClient implements WeatherApiClient{
 
   @override
   Future<Weather> getWeather(double latitude, double longitude) async {
-    final weatherRequest = Uri.https(baseUrlOpenMeteo, 'v1/forecast', {
-          'latitude': '$latitude',
-          'longitude': '$longitude',
-          'current_weather': 'true',
-    });
+    final weatherRequest = Uri.https(
+      baseUrlOpenMeteo,
+      'v1/forecast',
+      {
+        'latitude': '$latitude',
+        'longitude': '$longitude',
+        'current_weather': 'true',
+      }
+    );
 
     final weatherResponse = await _httpClient.get(weatherRequest);
 
@@ -141,7 +145,5 @@ extension on int {
   }
 }
 
-// class LocationRequestFailure implements Exception {}
-// class LocationNotFoundFailure implements Exception {}
 class WeatherRequestFailure implements Exception {}
 class WeatherNotFoundFailure implements Exception {}
