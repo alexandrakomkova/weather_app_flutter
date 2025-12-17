@@ -13,7 +13,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
   WeatherCubit(this._weatherRepository) : super(WeatherState());
 
   Future<void> fetchWeather(double latitude, double longitude) async {
-    _getWeather(latitude, longitude);
+    return await _getWeather(latitude, longitude);
   }
 
   Future<void> refreshWeather() async {

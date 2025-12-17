@@ -21,6 +21,7 @@ class WeatherPage extends StatelessWidget {
 
     return BlocListener<LocationCubit, LocationState>(
         listener: (locationCubitContext, state) {
+          debugPrint('--- LocationCubit ${state.status}');
           if(state.status == LocationStatus.success && state.position != null) {
             locationCubitContext.read<AddressTrackerCubit>().getAddress(
               state.position!.latitude,
@@ -98,7 +99,7 @@ class WeatherPage extends StatelessWidget {
 }
 
 class _WeatherView extends StatelessWidget {
-  const _WeatherView({super.key});
+  const _WeatherView();
 
   @override
   Widget build(BuildContext context) {

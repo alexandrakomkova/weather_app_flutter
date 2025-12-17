@@ -5,9 +5,9 @@ import 'package:weather_app/constants.dart';
 import 'package:weather_app/data/model/weather_response.dart';
 import 'package:weather_app/domain/model/weather.dart';
 import 'package:weather_app/domain/model/weather_condition.dart';
-import 'package:weather_app/domain/remote/api_client.dart';
+import 'package:weather_app/domain/remote/weather_api_client.dart';
 
-class OpenMeteoApiClient implements ApiClient{
+class OpenMeteoApiClient implements WeatherApiClient{
   final http.Client _httpClient;
 
   OpenMeteoApiClient({
@@ -141,7 +141,7 @@ extension on int {
   }
 }
 
-class LocationRequestFailure implements Exception {}
-class LocationNotFoundFailure implements Exception {}
+// class LocationRequestFailure implements Exception {}
+// class LocationNotFoundFailure implements Exception {}
 class WeatherRequestFailure implements Exception {}
 class WeatherNotFoundFailure implements Exception {}
