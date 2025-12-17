@@ -65,10 +65,7 @@ class _WeatherCardState extends State<WeatherCard>
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               clipBehavior: Clip.none,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
+              child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BlocBuilder<AddressTrackerCubit, AddressTrackerState>(
@@ -155,9 +152,7 @@ class _WeatherCardState extends State<WeatherCard>
                     // ai clothes recommendation
                     BlocListener<WeatherCubit, WeatherState>(
                       listener: (context, weatherState) {
-                        debugPrint('--- ClothesRecommendationCard listener ${weatherState.status}');
                         if(weatherState.weatherCubitModel != WeatherCubitModel.empty) {
-                          debugPrint('--- ClothesRecommendationCard fetchRecommendation called');
                           context.read<AdviceCubit>().fetchRecommendation(
                             weather: weatherState.weatherCubitModel,
                             temperatureUnits: weatherState.temperatureUnits,
@@ -165,13 +160,13 @@ class _WeatherCardState extends State<WeatherCard>
                         }
                       },
                       child: ClothesRecommendationCard()
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-        ),
+
       ],
     );
   }
