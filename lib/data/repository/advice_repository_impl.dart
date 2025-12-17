@@ -1,8 +1,10 @@
+import 'package:logging/logging.dart';
 import 'package:weather_app/data/remote/clarifai_api.dart';
 import 'package:weather_app/domain/remote/ai_api_client.dart';
 import 'package:weather_app/domain/repository/advice_repository.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
 
+final _log = Logger('AdviceRepositoryImpl');
 class AdviceRepositoryImpl implements AdviceRepository {
   final AIApiClient _apiClient;
   AdviceRepositoryImpl({
@@ -20,10 +22,13 @@ class AdviceRepositoryImpl implements AdviceRepository {
         temperatureUnits: temperatureUnits,
       );
     } on ClarifaiApiRequestFailure catch(e) {
+      _log.warning(e.toString());
       return 'Can not processed a request. Please, try later.';
     } on ClarifaiApiOutputNotFound catch(e) {
+      _log.warning(e.toString());
       return 'Can not parse a request body. Please, try later.';
     } on Exception catch(e) {
+      _log.warning(e.toString());
       return 'Some error occurred. Please, try later.';
     }
   }

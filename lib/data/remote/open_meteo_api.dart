@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:weather_app/constants.dart';
+import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/data/model/weather_response.dart';
 import 'package:weather_app/domain/model/weather.dart';
 import 'package:weather_app/domain/model/weather_condition.dart';
@@ -145,5 +145,17 @@ extension on int {
   }
 }
 
-class WeatherRequestFailure implements Exception {}
-class WeatherNotFoundFailure implements Exception {}
+class WeatherRequestFailure implements Exception {
+  final String message;
+
+  const WeatherRequestFailure({
+    this.message = '',
+  });
+}
+class WeatherNotFoundFailure implements Exception {
+  final String message;
+
+  const WeatherNotFoundFailure({
+    this.message = '',
+  });
+}

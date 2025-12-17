@@ -17,22 +17,26 @@ final class WeatherState extends Equatable{
   final WeatherCubitModel weatherCubitModel;
   final WeatherStatus status;
   final TemperatureUnits temperatureUnits;
+  final String errorMessage;
 
   WeatherState({
     this.status = WeatherStatus.initial,
     this.temperatureUnits = TemperatureUnits.celsius,
     WeatherCubitModel? weatherCubitModel,
+    this.errorMessage = ''
   }): weatherCubitModel = weatherCubitModel ?? WeatherCubitModel.empty;
 
   WeatherState copyWith({
     WeatherStatus? status,
     TemperatureUnits? temperatureUnits,
     WeatherCubitModel? weatherCubitModel,
+    String? errorMessage,
   }) {
     return WeatherState(
       status: status ?? this.status,
       temperatureUnits: temperatureUnits ?? this.temperatureUnits,
       weatherCubitModel: weatherCubitModel ?? this.weatherCubitModel,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 

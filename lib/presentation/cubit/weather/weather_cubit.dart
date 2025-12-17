@@ -63,29 +63,43 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     emit(state.copyWith(status: WeatherStatus.loading));
 
     try {
-      final weather = WeatherCubitModel.fromRepository(
-        await _weatherRepository.getWeather(
-          latitude: latitude,
-          longitude: longitude,
-        ),
+      final res = await _weatherRepository.getWeather(
+        latitude: latitude,
+        longitude: longitude,
       );
 
-      final units = state.temperatureUnits;
-      final value = units.isFahrenheit
-        ? weather.temperature.value.toFahrenheit()
-        : weather.temperature.value;
+      res.fold(
+        (onError) {
+          emit(state.copyWith(
+            status: WeatherStatus.failure,
+            errorMessage: onError.error.toString()
+          ));
+        },
+        (onOk) {
+          final weather = onOk.value;
+          final weatherCubitModel = WeatherCubitModel.fromRepository(weather);
 
-      emit(
-        state.copyWith(
-          status: WeatherStatus.success,
-          temperatureUnits: units,
-          weatherCubitModel: weather.copyWith(
-            temperature: Temperature(value: value)
-          ),
-        ),
+          final units = state.temperatureUnits;
+          final value = units.isFahrenheit
+              ? weatherCubitModel.temperature.value.toFahrenheit()
+              : weatherCubitModel.temperature.value;
+
+          emit(
+            state.copyWith(
+              status: WeatherStatus.success,
+              temperatureUnits: units,
+              weatherCubitModel: weatherCubitModel.copyWith(
+                temperature: Temperature(value: value)
+              ),
+            ),
+          );
+        }
       );
-    } on Exception {
-      emit(state.copyWith(status: WeatherStatus.failure));
+    } on Exception catch(e) {
+      emit(state.copyWith(
+        status: WeatherStatus.failure,
+        errorMessage: e.toString(),
+      ));
     }
   }
 
