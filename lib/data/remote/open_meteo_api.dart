@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:weather_app/constants.dart';
+import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/data/model/weather_response.dart';
 import 'package:weather_app/domain/model/weather.dart';
 import 'package:weather_app/domain/model/weather_condition.dart';
-import 'package:weather_app/domain/remote/api_client.dart';
+import 'package:weather_app/domain/remote/weather_api_client.dart';
+import 'package:weather_app/utils/custom_exception.dart';
 
-class OpenMeteoApiClient implements ApiClient{
+class OpenMeteoApiClient implements WeatherApiClient{
   final http.Client _httpClient;
 
   OpenMeteoApiClient({
@@ -16,11 +17,15 @@ class OpenMeteoApiClient implements ApiClient{
 
   @override
   Future<Weather> getWeather(double latitude, double longitude) async {
-    final weatherRequest = Uri.https(baseUrlOpenMeteo, 'v1/forecast', {
-          'latitude': '$latitude',
-          'longitude': '$longitude',
-          'current_weather': 'true',
-    });
+    final weatherRequest = Uri.https(
+      baseUrlOpenMeteo,
+      'v1/forecast',
+      {
+        'latitude': '$latitude',
+        'longitude': '$longitude',
+        'current_weather': 'true',
+      }
+    );
 
     final weatherResponse = await _httpClient.get(weatherRequest);
 
@@ -140,8 +145,3 @@ extension on int {
     }
   }
 }
-
-class LocationRequestFailure implements Exception {}
-class LocationNotFoundFailure implements Exception {}
-class WeatherRequestFailure implements Exception {}
-class WeatherNotFoundFailure implements Exception {}

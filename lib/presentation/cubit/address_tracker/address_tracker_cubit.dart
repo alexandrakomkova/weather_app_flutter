@@ -9,19 +9,25 @@ class AddressTrackerCubit extends Cubit<AddressTrackerState> {
 
   AddressTrackerCubit(this._addressTracker) : super(AddressTrackerState());
 
-  Future<void> getAddress(double latitude, double longitude) async {
+  Future<void> getAddress({
+    required double latitude,
+    required double longitude,
+  }) async {
     emit(state.copyWith(status: AddressTrackerStatus.loading));
     
     try {
-      final address = await _addressTracker.getAddress(latitude, longitude);
+      final address = await _addressTracker.getAddress(
+        latitude: latitude,
+        longitude: longitude,
+      );
 
       emit(state.copyWith(
-          status: AddressTrackerStatus.success,
+        status: AddressTrackerStatus.success,
         address: address,
       ));
     } catch (e) {
       emit(state.copyWith(
-          status: AddressTrackerStatus.failure,
+        status: AddressTrackerStatus.failure,
       ));
     }
   }

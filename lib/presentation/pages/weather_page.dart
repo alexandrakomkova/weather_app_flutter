@@ -23,12 +23,12 @@ class WeatherPage extends StatelessWidget {
         listener: (locationCubitContext, state) {
           if(state.status == LocationStatus.success && state.position != null) {
             locationCubitContext.read<AddressTrackerCubit>().getAddress(
-              state.position!.latitude,
-              state.position!.longitude,
+              latitude: state.position!.latitude,
+              longitude: state.position!.longitude,
             );
             locationCubitContext.read<WeatherCubit>().fetchWeather(
-                state.position!.latitude,
-                state.position!.longitude
+              latitude: state.position!.latitude,
+              longitude: state.position!.longitude
             );
           }
         },
@@ -98,7 +98,7 @@ class WeatherPage extends StatelessWidget {
 }
 
 class _WeatherView extends StatelessWidget {
-  const _WeatherView({super.key});
+  const _WeatherView();
 
   @override
   Widget build(BuildContext context) {

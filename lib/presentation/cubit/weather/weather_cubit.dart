@@ -12,8 +12,11 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
   WeatherCubit(this._weatherRepository) : super(WeatherState());
 
-  Future<void> fetchWeather(double latitude, double longitude) async {
-    _getWeather(latitude, longitude);
+  Future<void> fetchWeather({
+    required double latitude,
+    required double longitude,
+  }) async {
+    return await _getWeather(latitude: latitude, longitude: longitude);
   }
 
   Future<void> refreshWeather() async {
@@ -22,8 +25,8 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     if (state.weatherCubitModel == WeatherCubitModel.empty) return;
 
     _getWeather(
-      state.weatherCubitModel.latitude,
-      state.weatherCubitModel.longitude,
+      latitude: state.weatherCubitModel.latitude,
+      longitude: state.weatherCubitModel.longitude,
     );
   }
 
@@ -43,6 +46,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       final value = units.isCelsius
           ? temperature.value.toCelsius()
           : temperature.value.toFahrenheit();
+
       emit(
         state.copyWith(
           temperatureUnits: units,
@@ -52,34 +56,51 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     }
   }
 
-  Future<void> _getWeather(double latitude, double longitude) async {
+  Future<void> _getWeather({
+    required double latitude,
+    required double longitude,
+  }) async {
 
     emit(state.copyWith(status: WeatherStatus.loading));
 
     try {
-      final weather = WeatherCubitModel.fromRepository(
-        await _weatherRepository.getWeather(
-         latitude,
-          longitude,
-        ),
+      final res = await _weatherRepository.getWeather(
+        latitude: latitude,
+        longitude: longitude,
       );
 
-      final units = state.temperatureUnits;
-      final value = units.isFahrenheit
-        ? weather.temperature.value.toFahrenheit()
-        : weather.temperature.value;
+      res.fold(
+        (onError) {
+          emit(state.copyWith(
+            status: WeatherStatus.failure,
+            errorMessage: onError.error.toString()
+          ));
+        },
+        (onOk) {
+          final weather = onOk.value;
+          final weatherCubitModel = WeatherCubitModel.fromRepository(weather);
 
-      emit(
-        state.copyWith(
-          status: WeatherStatus.success,
-          temperatureUnits: units,
-          weatherCubitModel: weather.copyWith(
-            temperature: Temperature(value: value)
-          ),
-        ),
+          final units = state.temperatureUnits;
+          final value = units.isFahrenheit
+              ? weatherCubitModel.temperature.value.toFahrenheit()
+              : weatherCubitModel.temperature.value;
+
+          emit(
+            state.copyWith(
+              status: WeatherStatus.success,
+              temperatureUnits: units,
+              weatherCubitModel: weatherCubitModel.copyWith(
+                temperature: Temperature(value: value)
+              ),
+            ),
+          );
+        }
       );
-    } on Exception {
-      emit(state.copyWith(status: WeatherStatus.failure));
+    } on Exception catch(e) {
+      emit(state.copyWith(
+        status: WeatherStatus.failure,
+        errorMessage: e.toString(),
+      ));
     }
   }
 

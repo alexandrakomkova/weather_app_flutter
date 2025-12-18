@@ -1,3 +1,6 @@
 abstract class AddressTracker {
-  Future<String> getAddress(double latitude, double longitude);
+  Future<String> getAddress({
+    required double latitude,
+    required double longitude,
+  });
 }
