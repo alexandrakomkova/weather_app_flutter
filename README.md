@@ -13,6 +13,7 @@ Features
 * Animated UI
 * App theme adapting to system theme
 * Pull for Refresh reature
+* AI advice about outfit based on weather forecast (temperature, wind speed and direction, weather conditions)
 
 Screenshots
 ----------------
