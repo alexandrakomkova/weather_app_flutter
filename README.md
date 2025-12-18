@@ -17,15 +17,16 @@ Features
 Screenshots
 ----------------
 ### iOS
-<img width="250" alt="weather_app_mainscreen" src="https://github.com/user-attachments/assets/af618564-e0dc-40b0-a00c-939b115d37bf" />
-<img width="250" alt="weather_app_unitsfahrenheit" src="https://github.com/user-attachments/assets/51a91289-65e8-4573-be0f-90dfcb8b4df3" />
-<img width="250" alt="weather_app_pullforrefresh" src="https://github.com/user-attachments/assets/11b437a4-86c4-4b87-a2c5-a9765f77ab1d" />
+<img width="250" alt="new_ios" src="https://github.com/user-attachments/assets/41249d6d-282d-414c-a702-657f4a2ab851" />
+<img width="250" alt="new_ios_full_advice" src="https://github.com/user-attachments/assets/b558e184-3bcf-49b4-9f34-168e8d6111ec" />
+<img width="250" alt="new_ios_fahrenheit" src="https://github.com/user-attachments/assets/0a6eaacd-f820-423d-b783-368f34df11ac" />
 <img width="250" alt="weather_app_nointernetconnection" src="https://github.com/user-attachments/assets/d8aed293-8791-4e56-b47b-8b522fe82a73" />
 <img width="250" alt="weather_app_askforpermission" src="https://github.com/user-attachments/assets/fdf0501f-e31e-4da0-bdfe-fc1a2b861951" />
 
 ### Android
-<img width="250" alt="weather_app_lighttheme" src="https://github.com/user-attachments/assets/835e5721-2102-44b7-885b-a5f2e1e433fc" />
-<img width="250" alt="weather_app_anotherlocation" src="https://github.com/user-attachments/assets/396b21f9-662b-4cfc-af05-e495b34914ae" />
+<img width="250" alt="new_android_light_theme" src="https://github.com/user-attachments/assets/b30c77b3-3744-43e8-9825-65c2504e28c2" />
+<img width="250" alt="new_android_netherlands" src="https://github.com/user-attachments/assets/06c2428e-a0f9-4468-afdf-652f4be45116" />
+<img width="250" alt="new_android_china" src="https://github.com/user-attachments/assets/04944ab9-69fc-4422-b63a-5fd4c2f55bbe" />
 
 
 Key technologies
