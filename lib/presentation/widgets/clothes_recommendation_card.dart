@@ -12,21 +12,22 @@ class ClothesRecommendationCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 300,
       child: BlocBuilder<AdviceCubit, AdviceState>(
-            builder: (adviceContext, adviceState) {
-              return switch(adviceState.status) {
-                AdviceStatus.initial => SizedBox(),
-                AdviceStatus.loading => Center(child: CircularProgressIndicator(),),
-                AdviceStatus.failure => Center(child: Text(adviceState.errorMessage)),
-                AdviceStatus.success =>
-                    Markdown(
-                        data: adviceState.advice,
-                        styleSheet: MarkdownStyleSheet(
-                          p: const TextStyle(fontSize: 18, height: 1.4),
-                        ))
-
-              };
-            },
-
+        builder: (_, adviceState) {
+          return switch(adviceState.status) {
+            AdviceStatus.initial => SizedBox(),
+            AdviceStatus.loading => Center(child: CircularProgressIndicator(),),
+            AdviceStatus.failure => Text(adviceState.errorMessage),
+            AdviceStatus.success => Markdown(
+              data: adviceState.advice,
+              styleSheet: MarkdownStyleSheet(
+                p: const TextStyle(
+                    fontSize: 14,
+                    height: 1.4,
+                ),
+              )
+            )
+          };
+        },
       ),
     );
   }
