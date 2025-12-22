@@ -12,9 +12,26 @@ class WidgetService {
   static const streakWidgetAndroidName =
       '$androidPackagePrefix.weather_app_widget.WeatherWidgetReceiver';
 
+  // Keys for storing data
+  static const temperatureKey = 'temperature';
+  static const temperatureUnitsKey = 'temperatureUnits';
+  static const windSpeedKey = 'windSpeed';
+  static const windDirectionKey = 'windDirection';
+  static const weatherConditionsKey = 'weatherConditions';
+
   static Future<void> initialize() async {
     await HomeWidget.setAppGroupId(iOSWidgetAppGroupId);
   }
+
+  // Update dark mode
+  // static Future<void> updateDarkMode(bool isDarkMode) async {
+  //   await _saveData<bool>(darkModeKey, isDarkMode);
+  //   _updateWidget(
+  //     iOSWidgetName: streakWidgetiOSName,
+  //     qualifiedAndroidName: streakWidgetAndroidName,
+  //   );
+  // }
+
 
   // Save data to Shared Preferences
   static Future<void> _saveData<T>(String key, T data) async {
