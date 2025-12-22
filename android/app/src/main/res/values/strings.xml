@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="weather_appwidget_description">Shows the weather of the day</string>
+</resources>
