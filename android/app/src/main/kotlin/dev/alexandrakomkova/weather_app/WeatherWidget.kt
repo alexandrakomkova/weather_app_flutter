@@ -3,6 +3,7 @@ package dev.alexandrakomkova.weather_app
 import HomeWidgetGlanceState
 import HomeWidgetGlanceStateDefinition
 import androidx.glance.currentState
+import androidx.compose.ui.graphics.Color
 import android.content.Context
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +26,7 @@ import androidx.glance.text.TextStyle
 import androidx.compose.runtime.Composable
 import androidx.glance.state.GlanceStateDefinition
 import dev.alexandrakomkova.weather_app.MainActivity
+import androidx.glance.background
 
 class WeatherWidget : GlanceAppWidget() {
   // need for updating
@@ -56,6 +58,7 @@ class WeatherWidget : GlanceAppWidget() {
           Column(
               modifier = GlanceModifier
                   .fillMaxSize()
+                  .background(Color(0xFF6C63E7))
                   .padding(top = 14.dp)
                   .cornerRadius(15.dp),
               verticalAlignment = Alignment.CenterVertically,

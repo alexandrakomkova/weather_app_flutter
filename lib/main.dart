@@ -8,6 +8,7 @@ import 'package:weather_app/app/app.dart';
 import 'package:weather_app/app/app_bloc_observer.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:weather_app/utils/widget_service.dart';
+import 'package:workmanager/workmanager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,12 @@ Future<void> main() async {
           : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
   await dotenv.load(fileName: ".env");
+
+  Workmanager().initialize(
+    myCallbackDispatcher, // The top level function, aka callbackDispatcher
+    isInDebugMode: true,
+  );
+
   await WidgetService.initialize();
 
   runApp(

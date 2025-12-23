@@ -15,16 +15,15 @@ const weatherWidgetReceiver = 'dev.alexandrakomkova.weather_app.WeatherWidgetRec
 const updateWeatherData = "dev.alexandrakomkova.weather_app.updateWeatherData";
 
 class WidgetService {
-  //const WidgetService._();
 
   // iOS
   static const iOSWidgetAppGroupId = 'group.dev.alexandrakomkova.weather_app';
-  static const weatherWidgetiOSName = 'WeatherWidget';
+  static const weatherWidgetiOSName = 'WeatherWidgetReceiver';
 
   // Android
   static const androidPackagePrefix = 'dev.alexandrakomkova.weather_app';
   static const weatherWidgetAndroidName =
-      '$androidPackagePrefix.weather_app_widget.WeatherWidgetReceiver';
+      '$androidPackagePrefix.WeatherWidgetReceiver';
 
   // Keys for storing data
   static const temperatureKey = 'temperature';
@@ -35,21 +34,22 @@ class WidgetService {
 
 
   static Future<void> initialize() async {
-    Workmanager().initialize(
-        myCallbackDispatcher, // The top level function, aka callbackDispatcher
-        isInDebugMode: kDebugMode // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-    );
+    // await Workmanager().initialize(
+    //     myCallbackDispatcher, // The top level function, aka callbackDispatcher
+    //   isInDebugMode: true,
+    // );
 
     HomeWidget.registerInteractivityCallback(interactiveCallback);
 
     if (kDebugMode) {
+      _log.info('registerOneOffTask');
       Workmanager().registerOneOffTask("test_task_${DateTime.now().millisecondsSinceEpoch}", updateWeatherData);
     }
 
-    Workmanager().registerPeriodicTask(
+    await Workmanager().registerPeriodicTask(
       "updateWeatherWidget",
       updateWeatherData,
-      frequency: const Duration(hours: 1),
+      frequency: const Duration(seconds: 20), // hours 1
       constraints: Constraints(networkType: NetworkType.connected, requiresBatteryNotLow: true),
     );
     // await HomeWidget.setAppGroupId(iOSWidgetAppGroupId);
@@ -141,14 +141,15 @@ void myCallbackDispatcher() {
               );
 
               weatherResult.fold(
-                      (onError) {
-                    _log.warning(onError.error.toString());
-                    return Future.value(false);
-                  },
-                      (onOk) async {
-                    Weather data = onOk.value;
-                    await WidgetService.syncWeatherDataToWidget(data, TemperatureUnits.celsius);
-                  }
+                (onError) {
+                  _log.warning(onError.error.toString());
+                  return Future.value(false);
+                },
+                (onOk) async {
+                  Weather data = onOk.value;
+                  _log.info('${onOk.value.temperature}C ${onOk.value.windSpeed}km/h');
+                  await WidgetService.syncWeatherDataToWidget(data, TemperatureUnits.celsius);
+                }
               );
             }
           }
