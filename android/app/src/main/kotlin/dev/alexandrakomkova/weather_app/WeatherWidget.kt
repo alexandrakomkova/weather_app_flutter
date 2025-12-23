@@ -1,4 +1,4 @@
-package dev.alexandrakomkova.weather_app.weather_app_widget
+package dev.alexandrakomkova.weather_app
 
 import HomeWidgetGlanceState
 import HomeWidgetGlanceStateDefinition
