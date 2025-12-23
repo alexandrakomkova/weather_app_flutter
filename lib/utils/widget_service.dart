@@ -17,8 +17,8 @@ const updateWeatherData = "dev.alexandrakomkova.weather_app.updateWeatherData";
 class WidgetService {
 
   // iOS
-  static const iOSWidgetAppGroupId = 'group.dev.alexandrakomkova.weather_app';
-  static const weatherWidgetiOSName = 'WeatherWidgetReceiver';
+  static const iOSWidgetAppGroupId = 'group.weather_app_flutter';
+  static const weatherWidgetiOSName = 'WeatherWidget';
 
   // Android
   static const androidPackagePrefix = 'dev.alexandrakomkova.weather_app';
@@ -52,7 +52,7 @@ class WidgetService {
       frequency: const Duration(seconds: 20), // hours 1
       constraints: Constraints(networkType: NetworkType.connected, requiresBatteryNotLow: true),
     );
-    // await HomeWidget.setAppGroupId(iOSWidgetAppGroupId);
+    await HomeWidget.setAppGroupId(iOSWidgetAppGroupId);
   }
 
   static Future<void> syncWeatherDataToWidget(Weather data, TemperatureUnits units) async {
