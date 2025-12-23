@@ -110,8 +110,8 @@ struct WeatherWidgetEntryView : View {
             Text(entry.date, style: .time)
 
             
-            Text("\(entry.temperature) \(entry.temperatureUnits)}")
-            Text("\(entry.windSpeed) km/h \(entry.windDirection)}")
+            Text("\(entry.temperature) \(entry.temperatureUnits)")
+            Text("\(entry.windSpeed) km/h \(entry.windDirection)")
             Text(entry.weatherConditions)
         }
     }
