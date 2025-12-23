@@ -29,7 +29,7 @@ import dev.alexandrakomkova.weather_app.MainActivity
 import androidx.glance.background
 
 class WeatherWidget : GlanceAppWidget() {
-  // need for updating
+    // need for updating
 
     override val stateDefinition: GlanceStateDefinition<*>
         get() = HomeWidgetGlanceStateDefinition()
@@ -41,58 +41,67 @@ class WeatherWidget : GlanceAppWidget() {
         }
     }
 
-  @Composable
-  private fun GlanceContent(context: Context, currentState: HomeWidgetGlanceState, appWidgetId: Int) {
-      val data = currentState.preferences
-      val temperature = data.getInt("temperature", 0)
-      val windSpeed = data.getInt("windSpeed", 0)
-      val windDirection = data.getString("windDirection", "North")
-      val temperatureUnits = data.getString("temperatureUnits", "C")
-      val weatherConditions = data.getString("weatherConditions", "unknown")
+    @Composable
+    private fun GlanceContent(context: Context, currentState: HomeWidgetGlanceState, appWidgetId: Int) {
+        val data = currentState.preferences
+        val temperature = data.getInt("temperature", 0)
+        val windSpeed = data.getInt("windSpeed", 0)
+        val windDirection = data.getString("windDirection", "North")
+        val temperatureUnits = data.getString("temperatureUnits", "C")
+        val weatherConditions = data.getString("weatherConditions", "unknown")
 
-      Box(contentAlignment = Alignment.Center,
-          modifier = GlanceModifier.clickable(
-              actionStartActivity<MainActivity>()
-          )
-      ){
-          Column(
-              modifier = GlanceModifier
-                  .fillMaxSize()
-                  .background(Color(0xFF6C63E7))
-                  .padding(top = 14.dp)
-                  .cornerRadius(15.dp),
-              verticalAlignment = Alignment.CenterVertically,
-              horizontalAlignment = Alignment.CenterHorizontally,
-          ) {
-               // weather info (temperature, wind speed, wind direction)
-               Text(
-                   text = "$temperature°$temperatureUnits $windSpeed km/h $windDirection",
-                   style = TextStyle(
-                     textAlign = TextAlign.Center,
-                     fontSize = 18.sp
-                   ),
-                   maxLines = 1,
-                   modifier = GlanceModifier
-                       .fillMaxSize()
-                       .padding(10.dp),
-               )
+        Box(contentAlignment = Alignment.Center,
+            modifier = GlanceModifier.clickable(
+                actionStartActivity<MainActivity>()
+            )
+        ) {
+            Column(
+                modifier = GlanceModifier
+                    .fillMaxSize()
+                    .background(Color(0xFF6C63E7))
+                    .padding(top = 14.dp)
+                    .cornerRadius(15.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                // weather info (temperature, wind speed, wind direction)
+                Text(
+                    text = "$temperature°$temperatureUnits $windSpeed km/h $windDirection",
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
+                    ),
+                    maxLines = 1,
+                    modifier = GlanceModifier
+                        .fillMaxSize()
+                        .padding(10.dp),
+                )
+                Text(
+                    text = "$windSpeed km/h $windDirection",
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
+                    ),
+                    maxLines = 1,
+                    modifier = GlanceModifier
+                        .fillMaxSize()
+                        .padding(10.dp),
+                )
                 // weather image
 
-               // weather conditions
-               Text(
-                   text = "$weatherConditions",
-                   style = TextStyle(
-                       textAlign = TextAlign.Center,
-                       fontSize = 18.sp
-                   ),
-                   maxLines = 1,
-                   modifier = GlanceModifier
-                       .fillMaxSize()
-                       .padding(10.dp),
-               )
-             }
-
-      }
-  }
-
+                // weather conditions
+                Text(
+                    text = "$weatherConditions",
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
+                    ),
+                    maxLines = 1,
+                    modifier = GlanceModifier
+                        .fillMaxSize()
+                        .padding(10.dp),
+                )
+            }
+        }
+    }
 }

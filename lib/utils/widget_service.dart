@@ -56,11 +56,20 @@ class WidgetService {
   }
 
   static Future<void> syncWeatherDataToWidget(Weather data, TemperatureUnits units) async {
-    await saveData(temperatureKey, data.temperature);
+    await saveData(temperatureKey, data.temperature.toInt());
     await saveData(temperatureUnitsKey, units.isCelsius ? 'C' : 'F');
-    await saveData(windSpeedKey, data.windSpeed);
+    await saveData(windSpeedKey, data.windSpeed.toInt());
     await saveData(windDirectionKey, data.windDirection);
-    await saveData(weatherConditionsKey, data.weatherCondition);
+    await saveData(weatherConditionsKey, data.weatherCondition.condition);
+  }
+
+  static Future<void> updateWeatherDataWidget(Weather data) async {
+    await saveData(temperatureKey, data.temperature.toInt());
+    await saveData(windSpeedKey, data.windSpeed.toInt());
+    await saveData(windDirectionKey, data.windDirection);
+    await saveData(weatherConditionsKey, data.weatherCondition.condition);
+
+    reloadWidgets();
   }
 
 
