@@ -40,20 +40,21 @@ class WidgetService {
     //   isInDebugMode: true,
     // );
 
+    await HomeWidget.setAppGroupId(iOSWidgetAppGroupId);
+
     HomeWidget.registerInteractivityCallback(interactiveCallback);
 
-    if (kDebugMode) {
-      _log.info('registerOneOffTask');
-      Workmanager().registerOneOffTask("test_task_${DateTime.now().millisecondsSinceEpoch}", updateWeatherData);
-    }
+    // if (kDebugMode) {
+    //   _log.info('registerOneOffTask');
+    //   Workmanager().registerOneOffTask("test_task_${DateTime.now().millisecondsSinceEpoch}", updateWeatherData);
+    // }
 
     await Workmanager().registerPeriodicTask(
       "updateWeatherWidget",
-      updateWeatherData,
-      frequency: const Duration(seconds: 20), // hours 1
+      "dev.alexandrakomkova.weather_app.updateWeatherData", //updateWeatherData,
+      frequency: const Duration(minutes: 15), // hours 1
       constraints: Constraints(networkType: NetworkType.connected, requiresBatteryNotLow: true),
     );
-    await HomeWidget.setAppGroupId(iOSWidgetAppGroupId);
   }
 
   static Future<void> syncWeatherDataToWidget(Weather data, TemperatureUnits units) async {
@@ -116,69 +117,60 @@ class WidgetService {
       '[WidgetService.updateWidget] iOSWidgetName: $iOSWidgetName, qualifiedAndroidName: $qualifiedAndroidName, result: $result'
     );
   }
-}
 
-@pragma('vm:entry-point')
-void myCallbackDispatcher() {
-  _log.info('myCallbackDispatcher');
-  Workmanager().executeTask((task, inputData) async {
-    _log.info('Workmanager executeTask');
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  static Future<bool> handleBackgroundFetch() async {
+    try {
+      final List<HomeWidgetInfo> installedWidgets = await HomeWidget.getInstalledWidgets();
+      _log.info('${installedWidgets.length} installed widgets');
 
-    switch(task) {
-      case updateWeatherData:
-        try {
-          final List<HomeWidgetInfo> installedWidgets = await HomeWidget.getInstalledWidgets();
-          _log.info('${installedWidgets.length} installed widgets');
+      if (installedWidgets.isEmpty) {
+        _log.info('no widgets installed, skipping update');
+        return Future.value(true);
+      }
 
-          if (installedWidgets.isEmpty) {
-            _log.info('no widgets installed, skipping update');
-            return Future.value(true);
-          }
+      for (HomeWidgetInfo widgetInfo in installedWidgets) {
 
-          for (HomeWidgetInfo widgetInfo in installedWidgets) {
+        final String widgetClassName = widgetInfo.androidClassName!;
 
-            final String widgetClassName = widgetInfo.androidClassName!;
+        final Position position = await LocationRepositoryImpl().getLocation();
+        final latitude = position.latitude;
+        final longitude = position.longitude;
 
-            final Position position = await LocationRepositoryImpl().getLocation();
-            final latitude = position.latitude;
-            final longitude = position.longitude;
-
-            _log.info('location: $latitude $longitude');
-            _log.info('weatherWidgetReceiver: $weatherWidgetReceiver');
-            _log.info('widgetClassName: $widgetClassName');
+        _log.info('location: $latitude $longitude');
+        _log.info('weatherWidgetReceiver: $weatherWidgetReceiver');
+        _log.info('widgetClassName: $widgetClassName');
 
 
-            if(weatherWidgetReceiver == widgetClassName) {
-              final weatherResult = await WeatherRepositoryImpl(
-                  apiClient: OpenMeteoApiClient()
-              ).getWeather(
-                latitude: latitude,
-                longitude: longitude,
-              );
+        if(weatherWidgetReceiver == widgetClassName) {
+          final weatherResult = await WeatherRepositoryImpl(
+              apiClient: OpenMeteoApiClient()
+          ).getWeather(
+            latitude: latitude,
+            longitude: longitude,
+          );
 
-              weatherResult.fold(
-                (onError) {
-                  _log.warning(onError.error.toString());
-                  return Future.value(false);
-                },
-                (onOk) async {
-                  Weather data = onOk.value;
-                  _log.info('${onOk.value.temperature}C ${onOk.value.windSpeed}km/h');
-                  await WidgetService.syncWeatherDataToWidget(data, TemperatureUnits.celsius);
-                }
-              );
-            }
-          }
-
-          WidgetService.reloadWidgets();
-        } catch(e) {
-          _log.warning(e.toString());
-          return Future.value(false);
+          weatherResult.fold(
+                  (onError) {
+                _log.warning(onError.error.toString());
+                return Future.value(false);
+              },
+                  (onOk) async {
+                Weather data = onOk.value;
+                _log.info('${onOk.value.temperature}C ${onOk.value.windSpeed}km/h');
+                await WidgetService.syncWeatherDataToWidget(data, TemperatureUnits.celsius);
+              }
+          );
         }
+      }
+
+      WidgetService.reloadWidgets();
+    } catch(e) {
+      _log.warning(e.toString());
+      return Future.value(false);
     }
+
     return Future.value(true);
-  });
+  }
 }
 
 @pragma('vm:entry-point')
@@ -189,3 +181,4 @@ Future<void> interactiveCallback(Uri? uri) async {
         "test_task_${DateTime.now().millisecondsSinceEpoch}", updateWeatherData);
   }
 }
+
