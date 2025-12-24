@@ -31,6 +31,7 @@ class WidgetService {
   static const windSpeedKey = 'windSpeed';
   static const windDirectionKey = 'windDirection';
   static const weatherConditionsKey = 'weatherConditions';
+  static const locationKey = 'location';
 
 
   static Future<void> initialize() async {
@@ -68,6 +69,12 @@ class WidgetService {
     await saveData(windSpeedKey, data.windSpeed.toInt());
     await saveData(windDirectionKey, data.windDirection);
     await saveData(weatherConditionsKey, data.weatherCondition.condition);
+
+    reloadWidgets();
+  }
+
+  static Future<void> updateLocationDataWidget(String data) async {
+    await saveData(locationKey, data);
 
     reloadWidgets();
   }
@@ -115,6 +122,7 @@ class WidgetService {
 void myCallbackDispatcher() {
   _log.info('myCallbackDispatcher');
   Workmanager().executeTask((task, inputData) async {
+    _log.info('Workmanager executeTask');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     switch(task) {

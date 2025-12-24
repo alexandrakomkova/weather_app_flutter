@@ -1,3 +1,5 @@
+import 'package:weather_app/utils/widget_service.dart';
+
 import '/domain/location/address_tracker.dart';
 import 'package:geocoding/geocoding.dart';
 
@@ -10,6 +12,8 @@ import 'package:geocoding/geocoding.dart';
     List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
     Placemark place = placemarks[0];
 
-    return '${place.name}, ${place.country}';
+    final location = '${place.name}, ${place.country}';
+    WidgetService.updateLocationDataWidget(location);
+    return location;
   }
 }
