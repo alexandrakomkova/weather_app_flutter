@@ -21,6 +21,7 @@ WeatherState _$WeatherStateFromJson(Map<String, dynamic> json) => WeatherState(
       : WeatherCubitModel.fromJson(
           json['weatherCubitModel'] as Map<String, dynamic>,
         ),
+  errorMessage: json['errorMessage'] as String? ?? '',
 );
 
 Map<String, dynamic> _$WeatherStateToJson(WeatherState instance) =>
@@ -28,6 +29,7 @@ Map<String, dynamic> _$WeatherStateToJson(WeatherState instance) =>
       'weatherCubitModel': instance.weatherCubitModel,
       'status': _$WeatherStatusEnumMap[instance.status]!,
       'temperatureUnits': _$TemperatureUnitsEnumMap[instance.temperatureUnits]!,
+      'errorMessage': instance.errorMessage,
     };
 
 const _$WeatherStatusEnumMap = {
