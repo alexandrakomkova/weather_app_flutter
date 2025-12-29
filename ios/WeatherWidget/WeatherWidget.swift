@@ -24,10 +24,10 @@ struct Provider: TimelineProvider {
         let weatherConditions = prefs?.string(forKey: prefsKeyWeatherConditions) ?? "Clear"
             return WeatherEntry(
                 date: Date(),
-                temperature: 17,
-                windSpeed: 15,
-                windDirection: "NW",
-                weatherConditions: "Rainy",
+                temperature: temperature,
+                windSpeed: windSpeed,
+                windDirection: windDirection,
+                weatherConditions: weatherConditions,
             )
         }
     
@@ -40,10 +40,10 @@ struct Provider: TimelineProvider {
             
         let entry = WeatherEntry(
             date: .now,
-            temperature: -2,
-            windSpeed: 8,
-            windDirection: "N",
-            weatherConditions: "Freezing",
+            temperature: temperature,
+            windSpeed: windSpeed,
+            windDirection: windDirection,
+            weatherConditions: weatherConditions,
         )
             completion(entry)
         }

@@ -6,6 +6,11 @@
 	<dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.widgetkit-extension</string>
+        <key>NSUserActivityTypes</key>
+        <array>
+            <string>updateWeatherWidget</string>
+            <string>dev.alexandrakomkova.weather_app.updateWeatherData</string>
+        </array>
 	</dict>
 </dict>
 </plist>
