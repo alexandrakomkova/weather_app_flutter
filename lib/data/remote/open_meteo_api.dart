@@ -93,7 +93,7 @@ extension on int {
       case 315:
         return 'North-West';
       case > 315 && < 360:
-        return 'North-northwest';
+        return 'North-Northwest';
       default:
         return 'Unknown';
     }

@@ -1,4 +1,5 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:weather_app/domain/remote/weather_api_client.dart';
 import 'package:weather_app/domain/repository/weather_repository.dart';
@@ -6,6 +7,8 @@ import 'package:weather_app/domain/repository/weather_repository.dart';
 import 'package:weather_app/domain/model/weather.dart';
 import 'package:weather_app/utils/custom_exception.dart';
 import 'package:weather_app/utils/result.dart';
+import 'package:weather_app/utils/widget_service.dart';
+import 'package:workmanager/workmanager.dart';
 
 final _log = Logger('WeatherRepositoryImpl');
 class WeatherRepositoryImpl implements WeatherRepository{
@@ -22,6 +25,13 @@ class WeatherRepositoryImpl implements WeatherRepository{
   }) async {
     try {
       final res = await _apiClient.getWeather(latitude, longitude);
+      _updateWidget(res);
+
+      if (kDebugMode) {
+        _log.info('registerOneOffTask');
+        Workmanager().registerOneOffTask("test_task_${DateTime.now().millisecondsSinceEpoch}", "dev.alexandrakomkova.weather_app.updateWeatherData");
+      }
+
       return Result.ok(res);
     } on WeatherRequestFailure catch(e) {
       _log.warning(e.message);
@@ -35,4 +45,13 @@ class WeatherRepositoryImpl implements WeatherRepository{
   }
 
   void dispose() => _apiClient.close();
+
+  Future<void> _updateWidget(Weather weather) async {
+    try {
+      await WidgetService.updateWeatherDataWidget(weather);
+    } catch(e) {
+      _log.warning(e);
+    }
+
+  }
 }

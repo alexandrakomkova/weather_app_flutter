@@ -5,6 +5,7 @@ import 'package:weather_app/presentation/cubit/address_tracker/address_tracker_c
 import 'package:weather_app/presentation/cubit/internet_connection/internet_cubit.dart';
 import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
+import 'package:weather_app/presentation/pages/map_page.dart';
 import 'package:weather_app/presentation/widgets/weather_card.dart';
 import 'package:weather_app/presentation/widgets/checking_internet_connection.dart';
 import 'package:weather_app/presentation/widgets/no_internet_connection.dart';
@@ -39,6 +40,17 @@ class WeatherPage extends StatelessWidget {
               statusBarBrightness: Brightness.dark
           ),
           backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: Icon(Icons.map_outlined),
+            color: theme.colorScheme.primary,
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MapPage(),
+                ),
+              );
+            },
+          ),
           actions: [
             BlocBuilder<WeatherCubit, WeatherState>(
               buildWhen: (previous, current) =>

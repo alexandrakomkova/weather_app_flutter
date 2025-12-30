@@ -1,9 +1,22 @@
+
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    id("org.jetbrains.kotlin.plugin.compose")
+
 }
+
+val localProperties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+val apiKey = localProperties.getProperty("GOOGLE_API_KEY")
+
+val myApiKey = localProperties.getProperty("GOOGLE_API_KEY") ?: ""
+
 
 android {
     namespace = "dev.alexandrakomkova.weather_app"
@@ -15,8 +28,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    buildFeatures {
+       compose = true
+    }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
+       // jvmTarget = "1.8"
     }
 
     defaultConfig {
@@ -28,6 +46,8 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        manifestPlaceholders["GOOGLE_API_KEY"] = apiKey
     }
 
     buildTypes {
@@ -41,4 +61,10 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation("androidx.glance:glance:1.1.1")
+  implementation("androidx.glance:glance-appwidget:1.1.1")
+  implementation("androidx.glance:glance-material3:1.1.0")
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +9,41 @@ import 'package:path_provider/path_provider.dart';
 import 'package:weather_app/app/app.dart';
 import 'package:weather_app/app/app_bloc_observer.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:weather_app/utils/widget_service.dart';
+import 'package:workmanager/workmanager.dart';
+
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  _log.info('myCallbackDispatcher');
+  Workmanager().executeTask((task, inputData) async {
+    _log.info('Workmanager executeTask');
+
+    switch(task) {
+      //case updateWeatherData:
+      case "dev.alexandrakomkova.weather_app.updateWeatherData":
+        _log.info('Workmanager task dev.alexandrakomkova.weather_app.updateWeatherData is called');
+        return WidgetService.handleBackgroundFetch();
+      case Workmanager.iOSBackgroundTask:
+      // iOS Background Fetch task
+        return WidgetService.handleBackgroundFetch();
+    }
+    return Future.value(true);
+  });
+}
+
+final _log = Logger('Main');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+   if(Platform.isAndroid || Platform.isIOS) {
+     _log.info('Platform is iOS or Android');
+     Workmanager().initialize(
+       callbackDispatcher, // The top level function, aka callbackDispatcher
+       isInDebugMode: true,
+     );
+   }
+
   Logger.root.level = Level.INFO;
   Logger.root.onRecord.listen((record) {
     if (kDebugMode) {
@@ -24,6 +58,8 @@ Future<void> main() async {
           : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
   await dotenv.load(fileName: ".env");
+
+  await WidgetService.initialize();
 
   runApp(
     App(connectivity: Connectivity(),)
