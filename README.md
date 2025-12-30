@@ -14,6 +14,8 @@ Features
 * App theme adapting to system theme
 * Pull for Refresh reature
 * AI advice about outfit based on weather forecast (temperature, wind speed and direction, weather conditions)
+* Home screen widget (shows location, weather conditions, temperature in Celsius, wind speed and direction)
+* Device's location on map (Google Maps API)
 
 Screenshots
 ----------------
