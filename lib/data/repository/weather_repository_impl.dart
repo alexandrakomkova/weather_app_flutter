@@ -25,7 +25,7 @@ class WeatherRepositoryImpl implements WeatherRepository{
   }) async {
     try {
       final res = await _apiClient.getWeather(latitude, longitude);
-      //_updateWidget(res);
+      _updateWidget(res);
 
       if (kDebugMode) {
         _log.info('registerOneOffTask');
