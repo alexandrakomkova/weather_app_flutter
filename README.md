@@ -20,16 +20,17 @@ Features
 Screenshots
 ----------------
 ### iOS
-<img width="250" alt="new_ios" src="https://github.com/user-attachments/assets/41249d6d-282d-414c-a702-657f4a2ab851" />
-<img width="250" alt="new_ios_full_advice" src="https://github.com/user-attachments/assets/b558e184-3bcf-49b4-9f34-168e8d6111ec" />
-<img width="250" alt="new_ios_fahrenheit" src="https://github.com/user-attachments/assets/0a6eaacd-f820-423d-b783-368f34df11ac" />
-<img width="250" alt="weather_app_nointernetconnection" src="https://github.com/user-attachments/assets/d8aed293-8791-4e56-b47b-8b522fe82a73" />
-<img width="250" alt="weather_app_askforpermission" src="https://github.com/user-attachments/assets/fdf0501f-e31e-4da0-bdfe-fc1a2b861951" />
+<img width="250" alt="ios_main_screen" src="https://github.com/user-attachments/assets/e7b8e5d6-ef38-4eec-aaac-c531f3686820" />
+<img width="250" alt="ios_main_screen_fahrenheit" src="https://github.com/user-attachments/assets/c2f3b30d-e9b8-4663-8700-bc0064466e84" />
+<img width="250" alt="ios_map_screen_new_location" src="https://github.com/user-attachments/assets/8ed55340-06a6-4e0a-956f-9e0497fce8d0" />
+<img width="250" alt="ios_map_screen" src="https://github.com/user-attachments/assets/add4b7d2-9c3a-4252-885b-c18305d1bf03" />
 
 ### Android
-<img width="250" alt="new_android_light_theme" src="https://github.com/user-attachments/assets/b30c77b3-3744-43e8-9825-65c2504e28c2" />
-<img width="250" alt="new_android_netherlands" src="https://github.com/user-attachments/assets/06c2428e-a0f9-4468-afdf-652f4be45116" />
-<img width="250" alt="new_android_china" src="https://github.com/user-attachments/assets/04944ab9-69fc-4422-b63a-5fd4c2f55bbe" />
+<img width="250" alt="android_weather_widget" src="https://github.com/user-attachments/assets/ac3e7f20-97de-494b-a21a-c34fb42dda0c" />
+<img width="250" alt="android_mainscreen" src="https://github.com/user-attachments/assets/276d4a9d-5a02-460d-9928-0a5e485a8f5c" />
+<img width="250" alt="android_main_screen_fahrenheit" src="https://github.com/user-attachments/assets/27561d8d-d146-4601-8d7d-7e24f290fa60" />
+<img width="250" alt="android_map_screen" src="https://github.com/user-attachments/assets/ac9df3ab-5b5f-40b9-be9f-792f4e90c8ad" />
+<img width="250" alt="android_ask_permission" src="https://github.com/user-attachments/assets/3eb2c8bc-181e-4bed-bb5f-5079f397d51e" />
 
 
 Key technologies
