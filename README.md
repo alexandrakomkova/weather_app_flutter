@@ -41,4 +41,6 @@ Key technologies
 * geocoder
 * geolocator
 * connectivity_plus
+* home_widget
+* workmanager
 
