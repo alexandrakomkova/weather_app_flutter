@@ -1,6 +1,6 @@
 # Weather App (Flutter)
 
-A cross-platform weather application built with Flutter that shows current weather based on device's location.
+A cross-platform weather application built with Flutter that shows current weather based on device's location, gives AI advice about clothes that's suitable for weather forecast. 
 
 Features
 ----------------
