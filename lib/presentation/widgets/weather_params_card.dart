@@ -15,36 +15,31 @@ class WeatherParamsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Row(
       children: [
-        Image.asset(
-          cardIcon,
-          scale: 13.0,
-          color: theme.colorScheme.primary,
-        ),
-        SizedBox(width: 12.0,),
+        Image.asset(cardIcon, scale: 13.0, color: theme.colorScheme.primary),
+        const SizedBox(width: 12.0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               cardTitle,
-              style: TextStyle(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 14
+              style: theme.textTheme.bodySmall!.copyWith(
+                color: theme.colorScheme.primary,
               ),
             ),
-            SizedBox(height: 3.0,),
+            const SizedBox(height: 3.0),
             Text(
               value,
               style: TextStyle(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14
+                color: theme.colorScheme.primary,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

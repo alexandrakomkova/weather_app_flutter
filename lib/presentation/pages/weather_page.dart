@@ -61,7 +61,7 @@ class WeatherPage extends StatelessWidget {
                       Text(
                         '°F',
                         style: theme.textTheme.labelMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
                       const SizedBox(width: 3.0),
@@ -74,7 +74,7 @@ class WeatherPage extends StatelessWidget {
                       Text(
                         '°C',
                         style: theme.textTheme.labelMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
+                          color: theme.colorScheme.primary,
                         ),
                       ),
                     ],
