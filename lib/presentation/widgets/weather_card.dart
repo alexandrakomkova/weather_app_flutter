@@ -151,7 +151,7 @@ class _WeatherCardState extends State<WeatherCard>
                         );
                       }
                     },
-                    child: ClothesRecommendationCard(),
+                    child: const ClothesRecommendationCard(),
                   ),
                 ],
               ),
@@ -181,38 +181,44 @@ class _WeatherBackground extends StatelessWidget {
         children: [
           Align(
             alignment: const AlignmentDirectional(2, -0.1),
-            child: Container(
+            child: SizedBox(
               height: 350,
               width: 250,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: weatherCondition.thirdColor,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: weatherCondition.thirdColor,
+                ),
               ),
             ),
           ),
           Align(
             alignment: const AlignmentDirectional(-4, -0.1),
-            child: Container(
+            child: SizedBox(
               height: 300,
               width: 300,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: weatherCondition.secondColor,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: weatherCondition.secondColor,
+                ),
               ),
             ),
           ),
           Align(
             alignment: const AlignmentDirectional(0, -1.2),
-            child: Container(
+            child: SizedBox(
               height: 350,
               width: 600,
-              decoration: BoxDecoration(color: weatherCondition.mainColor),
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: weatherCondition.mainColor),
+              ),
             ),
           ),
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100.0),
-            child: DecoratedBox(
-              decoration: const BoxDecoration(color: Colors.transparent),
+            child: const DecoratedBox(
+              decoration: BoxDecoration(color: Colors.transparent),
             ),
           ),
         ],

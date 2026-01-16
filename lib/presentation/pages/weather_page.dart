@@ -55,7 +55,7 @@ class WeatherPage extends StatelessWidget {
                   previous.temperatureUnits != current.temperatureUnits,
               builder: (context, state) {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     children: [
                       Text(
