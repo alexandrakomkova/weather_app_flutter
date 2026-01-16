@@ -6,4 +6,6 @@ abstract class AdviceRepository {
     required WeatherCubitModel weather,
     required TemperatureUnits temperatureUnits,
   });
+
+  void dispose();
 }

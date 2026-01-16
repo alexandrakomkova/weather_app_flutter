@@ -6,4 +6,6 @@ abstract class WeatherRepository {
     required double latitude,
     required double longitude,
   });
+
+  void dispose();
 }
