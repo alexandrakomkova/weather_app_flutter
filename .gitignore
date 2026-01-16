@@ -34,6 +34,7 @@ migrate_working_dir/
 /coverage/
 *.g.dart
 *.env
+/env/config.json
 
 # Symbolication related
 app.*.symbols

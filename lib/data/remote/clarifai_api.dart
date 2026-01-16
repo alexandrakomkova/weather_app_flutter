@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/data/model/advice_response.dart';
 import 'package:weather_app/domain/remote/ai_api_client.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
 import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/custom_exception.dart';
+import 'package:weather_app/utils/environment.dart';
 
 class ClarifaiApiClient implements AIApiClient {
   final http.Client _httpClient;
@@ -25,12 +25,11 @@ class ClarifaiApiClient implements AIApiClient {
     required TemperatureUnits temperatureUnits,
   }) async {
     final url = Uri.parse(clarifaiUrl);
-    final apiKey = dotenv.env['CLARIFAI_API_KEY'];
 
     final clarifaiResponse = await http.post(
       url,
       headers: <String, String>{
-        'Authorization': 'Key $apiKey',
+        'Authorization': 'Key ${Environment.clarifaiApiKey}',
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: _formRequestBody(

@@ -8,7 +8,6 @@ import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:weather_app/app/app.dart';
 import 'package:weather_app/app/app_bloc_observer.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:weather_app/utils/widget_service.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -18,13 +17,15 @@ void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     _log.info('Workmanager executeTask');
 
-    switch(task) {
+    switch (task) {
       //case updateWeatherData:
       case "dev.alexandrakomkova.weather_app.updateWeatherData":
-        _log.info('Workmanager task dev.alexandrakomkova.weather_app.updateWeatherData is called');
+        _log.info(
+          'Workmanager task dev.alexandrakomkova.weather_app.updateWeatherData is called',
+        );
         return WidgetService.handleBackgroundFetch();
       case Workmanager.iOSBackgroundTask:
-      // iOS Background Fetch task
+        // iOS Background Fetch task
         return WidgetService.handleBackgroundFetch();
     }
     return Future.value(true);
@@ -36,32 +37,31 @@ final _log = Logger('Main');
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-   if(Platform.isAndroid || Platform.isIOS) {
-     _log.info('Platform is iOS or Android');
-     Workmanager().initialize(
-       callbackDispatcher, // The top level function, aka callbackDispatcher
-       isInDebugMode: true,
-     );
-   }
+  if (Platform.isAndroid || Platform.isIOS) {
+    _log.info('Platform is iOS or Android');
+    Workmanager().initialize(
+      callbackDispatcher, // The top level function, aka callbackDispatcher
+      isInDebugMode: true,
+    );
+  }
 
   Logger.root.level = Level.INFO;
   Logger.root.onRecord.listen((record) {
     if (kDebugMode) {
-      print('${record.level.name}: ${record.time}: ${record.loggerName} ${record.message}');
+      print(
+        '${record.level.name}: ${record.time}: ${record.loggerName} ${record.message}',
+      );
     }
   });
 
   Bloc.observer = const AppBlocObserver();
   HydratedBloc.storage = await HydratedStorage.build(
-      storageDirectory: kIsWeb
-          ? HydratedStorageDirectory.web
-          : HydratedStorageDirectory((await getTemporaryDirectory()).path),
+    storageDirectory: kIsWeb
+        ? HydratedStorageDirectory.web
+        : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
-  await dotenv.load(fileName: ".env");
 
   await WidgetService.initialize();
 
-  runApp(
-    App(connectivity: Connectivity(),)
-  );
+  runApp(App(connectivity: Connectivity()));
 }
