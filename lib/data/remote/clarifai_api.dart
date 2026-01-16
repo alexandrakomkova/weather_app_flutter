@@ -2,18 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/data/model/advice_response.dart';
 import 'package:weather_app/domain/remote/ai_api_client.dart';
 import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
+import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/custom_exception.dart';
 
 class ClarifaiApiClient implements AIApiClient {
   final http.Client _httpClient;
 
-  ClarifaiApiClient({
-    http.Client? httpClient
-  }): _httpClient = httpClient ?? http.Client();
+  ClarifaiApiClient({http.Client? httpClient})
+    : _httpClient = httpClient ?? http.Client();
 
   @override
   void close() {
@@ -30,7 +29,7 @@ class ClarifaiApiClient implements AIApiClient {
 
     final clarifaiResponse = await http.post(
       url,
-      headers: <String, String> {
+      headers: <String, String>{
         'Authorization': 'Key $apiKey',
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -40,7 +39,7 @@ class ClarifaiApiClient implements AIApiClient {
       ),
     );
 
-    if(clarifaiResponse.statusCode != 200) {
+    if (clarifaiResponse.statusCode != 200) {
       throw ClarifaiApiRequestFailure();
     }
 
@@ -59,20 +58,23 @@ class ClarifaiApiClient implements AIApiClient {
     required WeatherCubitModel weather,
     required TemperatureUnits temperatureUnits,
   }) {
-    final weatherCondition = weather.weatherCondition.condition;
-    final temperature = weather.temperature;
-    final windSpeed = weather.windSpeed;
-    final windDirection = weather.windDirection;
-    final units = '°${temperatureUnits.isCelsius ? 'C' : 'F'}';
+    final String weatherCondition = weather.weatherCondition.condition;
+    final Temperature temperature = weather.temperature;
+    final double windSpeed = weather.windSpeed;
+    final String windDirection = weather.windDirection;
+    final String units = '°${temperatureUnits.isCelsius ? 'C' : 'F'}';
 
     return jsonEncode(<String, dynamic>{
-      'inputs': [{
-        'data': {
-          'text': {
-            'raw': 'You are a great synoptic. Give a user a short piece of advice about what to wear if the weather is $weatherCondition, the temperature is $temperature $units, the wind speed is $windSpeed km/h and the wind direction is $windDirection.'
-          }
-        }
-      }]
+      'inputs': [
+        {
+          'data': {
+            'text': {
+              'raw':
+                  'You are a great synoptic. Give a user a short piece of advice about what to wear if the weather is $weatherCondition, the temperature is $temperature $units, the wind speed is $windSpeed km/h and the wind direction is $windDirection.',
+            },
+          },
+        },
+      ],
     });
   }
 }

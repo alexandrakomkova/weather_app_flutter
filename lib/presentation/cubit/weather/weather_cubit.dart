@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
 import 'package:weather_app/domain/repository/weather_repository.dart';
+import 'package:weather_app/presentation/cubit/model/weather_cubit_model.dart';
 
-part 'weather_state.dart';
 part 'weather_cubit.g.dart';
+part 'weather_state.dart';
 
 class WeatherCubit extends HydratedCubit<WeatherState> {
   final WeatherRepository _weatherRepository;
@@ -20,7 +20,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
   }
 
   Future<void> refreshWeather() async {
-    if (!state.status.isSuccess) return;
+    if (state.status != WeatherStatus.success) return;
 
     if (state.weatherCubitModel == WeatherCubitModel.empty) return;
 
@@ -35,7 +35,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
         ? TemperatureUnits.celsius
         : TemperatureUnits.fahrenheit;
 
-    if (!state.status.isSuccess) {
+    if (state.status != WeatherStatus.success) {
       emit(state.copyWith(temperatureUnits: units));
       return;
     }
@@ -50,7 +50,9 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       emit(
         state.copyWith(
           temperatureUnits: units,
-          weatherCubitModel: weather.copyWith(temperature: Temperature(value: value)),
+          weatherCubitModel: weather.copyWith(
+            temperature: Temperature(value: value),
+          ),
         ),
       );
     }
@@ -60,7 +62,6 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
     required double latitude,
     required double longitude,
   }) async {
-
     emit(state.copyWith(status: WeatherStatus.loading));
 
     try {
@@ -71,10 +72,12 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
 
       res.fold(
         (onError) {
-          emit(state.copyWith(
-            status: WeatherStatus.failure,
-            errorMessage: onError.error.toString()
-          ));
+          emit(
+            state.copyWith(
+              status: WeatherStatus.failure,
+              errorMessage: onError.error.toString(),
+            ),
+          );
         },
         (onOk) {
           final weather = onOk.value;
@@ -90,17 +93,19 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
               status: WeatherStatus.success,
               temperatureUnits: units,
               weatherCubitModel: weatherCubitModel.copyWith(
-                temperature: Temperature(value: value)
+                temperature: Temperature(value: value),
               ),
             ),
           );
-        }
+        },
       );
-    } on Exception catch(e) {
-      emit(state.copyWith(
-        status: WeatherStatus.failure,
-        errorMessage: e.toString(),
-      ));
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: WeatherStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -109,8 +114,7 @@ class WeatherCubit extends HydratedCubit<WeatherState> {
       WeatherState.fromJson(json);
 
   @override
-  Map<String, dynamic>? toJson(WeatherState state) =>
-      state.toJson();
+  Map<String, dynamic>? toJson(WeatherState state) => state.toJson();
 }
 
 extension TemperatureConversion on double {
