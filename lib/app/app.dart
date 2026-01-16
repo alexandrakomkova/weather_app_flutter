@@ -19,7 +19,7 @@ import 'package:weather_app/presentation/cubit/internet_connection/internet_cubi
 import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
 import 'package:weather_app/presentation/cubit/weather/weather_cubit.dart';
 import 'package:weather_app/presentation/pages/weather_page.dart';
-import 'package:weather_app/presentation/theme/weather_theme.dart';
+import 'package:weather_app/presentation/theme/theme.dart';
 
 class App extends StatelessWidget {
   final Connectivity connectivity;
@@ -91,10 +91,10 @@ class _AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: WeatherTheme.light,
-      darkTheme: WeatherTheme.dark,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      home: WeatherPage(),
+      home: const WeatherPage(),
     );
   }
 }

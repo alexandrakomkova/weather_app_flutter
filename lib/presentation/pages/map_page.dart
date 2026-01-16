@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:weather_app/presentation/cubit/address_tracker/address_tracker_cubit.dart';
 import 'package:weather_app/presentation/cubit/location/location_cubit.dart';
@@ -11,14 +10,14 @@ class MapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: BlocBuilder<AddressTrackerCubit, AddressTrackerState>(
-              builder: (_, state) {
-                return Text(state.address);
-              },
-            )
+      appBar: AppBar(
+        title: BlocBuilder<AddressTrackerCubit, AddressTrackerState>(
+          builder: (_, state) {
+            return Text(state.address);
+          },
         ),
-        body: _MapView()
+      ),
+      body: const _MapView(),
     );
   }
 }
@@ -44,6 +43,7 @@ class _MapScreenState extends State<_MapScreen> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
+
   @override
   void initState() {
     super.initState();
@@ -57,18 +57,13 @@ class _MapScreenState extends State<_MapScreen> {
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
             target: state.position == null
-              ? LatLng(37.7749, -122.4194)
-              : LatLng(
-                state.position!.latitude,
-                state.position!.longitude,
-              ),
+                ? LatLng(37.7749, -122.4194)
+                : LatLng(state.position!.latitude, state.position!.longitude),
             zoom: 12,
           ),
           markers: state.mapMarkers ?? {},
         );
-      }
+      },
     );
   }
 }
-
-
