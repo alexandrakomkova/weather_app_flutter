@@ -1,5 +1,4 @@
 import 'package:geolocator/geolocator.dart';
-
 import 'package:weather_app/domain/location/location_repository.dart';
 
 class LocationRepositoryImpl implements LocationRepository {
@@ -9,15 +8,12 @@ class LocationRepositoryImpl implements LocationRepository {
   }
 
   Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
     }
 
-    permission = await Geolocator.checkPermission();
+    LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
@@ -27,10 +23,10 @@ class LocationRepositoryImpl implements LocationRepository {
 
     if (permission == LocationPermission.deniedForever) {
       return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.');
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
     }
 
     return await Geolocator.getCurrentPosition();
   }
-
 }

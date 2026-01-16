@@ -1,31 +1,26 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/data/model/weather_response.dart';
 import 'package:weather_app/domain/model/weather.dart';
 import 'package:weather_app/domain/model/weather_condition.dart';
 import 'package:weather_app/domain/remote/weather_api_client.dart';
+import 'package:weather_app/utils/constants.dart';
 import 'package:weather_app/utils/custom_exception.dart';
 
-class OpenMeteoApiClient implements WeatherApiClient{
+class OpenMeteoApiClient implements WeatherApiClient {
   final http.Client _httpClient;
 
-  OpenMeteoApiClient({
-    http.Client? httpClient
-  }): _httpClient = httpClient ?? http.Client();
+  OpenMeteoApiClient({http.Client? httpClient})
+    : _httpClient = httpClient ?? http.Client();
 
   @override
   Future<Weather> getWeather(double latitude, double longitude) async {
-    final weatherRequest = Uri.https(
-      baseUrlOpenMeteo,
-      'v1/forecast',
-      {
-        'latitude': '$latitude',
-        'longitude': '$longitude',
-        'current_weather': 'true',
-      }
-    );
+    final weatherRequest = Uri.https(baseUrlOpenMeteo, 'v1/forecast', {
+      'latitude': '$latitude',
+      'longitude': '$longitude',
+      'current_weather': 'true',
+    });
 
     final weatherResponse = await _httpClient.get(weatherRequest);
 
@@ -36,19 +31,19 @@ class OpenMeteoApiClient implements WeatherApiClient{
     final bodyJson = jsonDecode(weatherResponse.body) as Map<String, dynamic>;
 
     if (!bodyJson.containsKey('current_weather')) {
-       throw WeatherNotFoundFailure();
+      throw WeatherNotFoundFailure();
     }
 
     final weatherJson = bodyJson['current_weather'] as Map<String, dynamic>;
     final weather = WeatherResponse.fromJson(weatherJson);
 
     return Weather(
-        latitude: latitude,
-        longitude: longitude, 
-        temperature: weather.temperature,
-        windSpeed: weather.windSpeed,
-        windDirection: weather.windDirectionAngle.toDirection,
-        weatherCondition: weather.weatherConditionCode.toInt().toCondition,
+      latitude: latitude,
+      longitude: longitude,
+      temperature: weather.temperature,
+      windSpeed: weather.windSpeed,
+      windDirection: weather.windDirectionAngle.toDirection,
+      weatherCondition: weather.weatherConditionCode.toInt().toCondition,
     );
   }
 
@@ -105,29 +100,17 @@ extension on int {
     switch (this) {
       case 0:
         return WeatherCondition.clear;
-      case 1:
-      case 2:
-      case 3:
+      case >= 1 && <= 3:
         return WeatherCondition.mainlyClear;
-      case 45:
-      case 48:
+      case >= 45 && <= 48:
         return WeatherCondition.cloudy;
-      case 51:
-      case 53:
-      case 55:
+      case >= 51 && <= 55:
         return WeatherCondition.drizzle;
-      case 56:
-      case 57:
+      case >= 56 && <= 57:
         return WeatherCondition.freezingDrizzle;
-      case 61:
-      case 63:
-      case 65:
-      case 66:
-      case 67:
+      case >= 61 && <= 67:
         return WeatherCondition.rainy;
-      case 80:
-      case 81:
-      case 82:
+      case >= 80 && <= 82:
         return WeatherCondition.rainShowers;
       case 71:
       case 73:
@@ -136,9 +119,7 @@ extension on int {
       case 85:
       case 86:
         return WeatherCondition.snowy;
-      case 95:
-      case 96:
-      case 99:
+      case >= 95 && <= 99:
         return WeatherCondition.thunderstorm;
       default:
         return WeatherCondition.unknown;
