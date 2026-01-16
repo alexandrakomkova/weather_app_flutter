@@ -7,6 +7,7 @@ import 'package:weather_app/data/remote/clarifai_api.dart';
 import 'package:weather_app/data/remote/open_meteo_api.dart';
 import 'package:weather_app/data/repository/advice_repository_impl.dart';
 import 'package:weather_app/data/repository/weather_repository_impl.dart';
+import 'package:weather_app/domain/location/address_tracker.dart';
 import 'package:weather_app/domain/location/location_repository.dart';
 import 'package:weather_app/domain/remote/ai_api_client.dart';
 import 'package:weather_app/domain/remote/weather_api_client.dart';
@@ -40,17 +41,18 @@ class App extends StatelessWidget {
         RepositoryProvider<LocationRepository>(
           create: (_) => LocationRepositoryImpl(),
         ),
-        RepositoryProvider(create: (_) => DefaultAddressTracker()),
+        RepositoryProvider<AddressTracker>(
+          create: (_) => DefaultAddressTracker(),
+        ),
         RepositoryProvider<WeatherRepository>(
           create: (context) => WeatherRepositoryImpl(
-            apiClient: context.read<OpenMeteoApiClient>(),
+            apiClient: context.read<WeatherApiClient>(),
           ),
           dispose: (repository) => repository.dispose(),
         ),
         RepositoryProvider<AdviceRepository>(
-          create: (context) => AdviceRepositoryImpl(
-            apiClient: context.read<ClarifaiApiClient>(),
-          ),
+          create: (context) =>
+              AdviceRepositoryImpl(apiClient: context.read<AIApiClient>()),
           dispose: (repository) => repository.dispose(),
         ),
       ],
@@ -58,23 +60,22 @@ class App extends StatelessWidget {
         providers: [
           BlocProvider<LocationCubit>(
             create: (context) =>
-                LocationCubit(context.read<LocationRepositoryImpl>()),
+                LocationCubit(context.read<LocationRepository>()),
           ),
           BlocProvider<AddressTrackerCubit>(
             create: (context) =>
-                AddressTrackerCubit(context.read<DefaultAddressTracker>()),
+                AddressTrackerCubit(context.read<AddressTracker>()),
           ),
           BlocProvider<InternetCubit>(
             create: (_) => InternetCubit(connectivity: connectivity),
           ),
           BlocProvider<WeatherCubit>(
             create: (context) =>
-                WeatherCubit(context.read<WeatherRepositoryImpl>()),
+                WeatherCubit(context.read<WeatherRepository>()),
           ),
           BlocProvider<AdviceCubit>(
-            create: (context) => AdviceCubit(
-              adviceRepository: context.read<AdviceRepositoryImpl>(),
-            ),
+            create: (context) =>
+                AdviceCubit(adviceRepository: context.read<AdviceRepository>()),
           ),
         ],
         child: const _AppView(),
