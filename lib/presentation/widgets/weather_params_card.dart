@@ -32,10 +32,8 @@ class WeatherParamsCard extends StatelessWidget {
             const SizedBox(height: 3.0),
             Text(
               value,
-              style: TextStyle(
+              style: theme.textTheme.headlineSmall!.copyWith(
                 color: theme.colorScheme.primary,
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
               ),
             ),
           ],

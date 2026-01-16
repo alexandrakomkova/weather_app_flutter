@@ -69,51 +69,17 @@ class _WeatherCardState extends State<WeatherCard>
                 children: [
                   BlocBuilder<AddressTrackerCubit, AddressTrackerState>(
                     builder: (_, state) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '📍${state.address}',
-                              style: theme.textTheme.bodyLarge!.copyWith(
-                                color: theme.colorScheme.primary,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
+                      return _location(
+                        context: context,
+                        address: state.address,
                       );
                     },
                   ),
                   const SizedBox(height: 8.0),
-                  Text(
-                    DateFormat('EEEE').format(DateTime.now()),
-                    style: theme.textTheme.headlineMedium!.copyWith(
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                  ScaleTransition(
-                    scale: _animation,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset(
-                          widget.weatherCubitModel.weatherCondition.icon,
-                          scale: 1.7,
-                        ),
-                      ],
-                    ),
-                  ),
 
-                  Center(
-                    child: Text(
-                      widget.weatherCubitModel.formattedTemperature(
-                        widget.units,
-                      ),
-                      style: theme.textTheme.headlineLarge!.copyWith(
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                  ),
+                  _weekDay(context: context),
+                  _animatedIcon(),
+                  _temperature(context: context),
                   Center(
                     child: Text(
                       '''Last Updated at ${TimeOfDay.fromDateTime(widget.weatherCubitModel.lastUpdated).format(context)}''',
@@ -144,7 +110,7 @@ class _WeatherCardState extends State<WeatherCard>
 
                   BlocListener<WeatherCubit, WeatherState>(
                     listener: (context, state) {
-                      if (state.weatherCubitModel != WeatherCubitModel.empty) {
+                      if (!state.weatherCubitModel.isEmpty) {
                         context.read<AdviceCubit>().fetchRecommendation(
                           weather: state.weatherCubitModel,
                           temperatureUnits: state.temperatureUnits,
@@ -156,6 +122,57 @@ class _WeatherCardState extends State<WeatherCard>
                 ],
               ),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _weekDay({required BuildContext context}) {
+    return Text(
+      DateFormat('EEEE').format(DateTime.now()),
+      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+        color: Theme.of(context).colorScheme.primary,
+      ),
+    );
+  }
+
+  Widget _animatedIcon() {
+    return ScaleTransition(
+      scale: _animation,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Image.asset(
+            widget.weatherCubitModel.weatherCondition.icon,
+            scale: 1.7,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _temperature({required BuildContext context}) {
+    return Center(
+      child: Text(
+        widget.weatherCubitModel.formattedTemperature(widget.units),
+        style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+    );
+  }
+
+  Widget _location({required BuildContext context, required String address}) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            '📍$address',
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

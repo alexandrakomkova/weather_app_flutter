@@ -13,17 +13,13 @@ class WeatherLoading extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.all(16.0),
-            child: CircularProgressIndicator(
-              strokeWidth: 2.0,
-            ),
+            child: CircularProgressIndicator(strokeWidth: 2.0),
           ),
-          SizedBox(height: 8.0,),
+          const SizedBox(height: 8.0),
           Text(
             'Loading weather..',
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: theme.colorScheme.primary
+            style: theme.textTheme.bodyLarge!.copyWith(
+              color: theme.colorScheme.primary,
             ),
           ),
         ],

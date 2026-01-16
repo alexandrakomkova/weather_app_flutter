@@ -9,23 +9,22 @@ class ClothesRecommendationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.sizeOf(context).width,
       height: 300,
       child: BlocBuilder<AdviceCubit, AdviceState>(
-        builder: (_, adviceState) {
-          return switch(adviceState.status) {
-            AdviceStatus.initial => SizedBox(),
-            AdviceStatus.loading => Center(child: CircularProgressIndicator(),),
-            AdviceStatus.failure => Text(adviceState.errorMessage),
+        builder: (_, state) {
+          return switch (state.status) {
+            AdviceStatus.initial => const SizedBox(),
+            AdviceStatus.loading => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            AdviceStatus.failure => Text(state.errorMessage),
             AdviceStatus.success => Markdown(
-              data: adviceState.advice,
+              data: state.advice,
               styleSheet: MarkdownStyleSheet(
-                p: const TextStyle(
-                    fontSize: 14,
-                    height: 1.4,
-                ),
-              )
-            )
+                p: const TextStyle(fontSize: 14, height: 1.4),
+              ),
+            ),
           };
         },
       ),

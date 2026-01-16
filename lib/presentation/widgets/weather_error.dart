@@ -16,26 +16,19 @@ class WeatherError extends StatelessWidget {
           builder: (context, state) {
             return Text(
               'Something went wrong! Please, try later. Unexpected error: ${state.errorMessage}',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
+              style: theme.textTheme.bodyLarge!.copyWith(
                 color: theme.colorScheme.primary,
               ),
             );
           },
         ),
-        SizedBox(height: 15.0,),
+        const SizedBox(height: 15.0),
         OutlinedButton(
           onPressed: () {
             context.read<WeatherCubit>().refreshWeather();
           },
-          child: Text(
-            'Try again',
-            style: TextStyle(
-                fontSize: 16
-            ),
-          ),
-        )
+          child: Text('Try again', style: theme.textTheme.bodyLarge),
+        ),
       ],
     );
   }
